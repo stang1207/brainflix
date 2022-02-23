@@ -1,0 +1,14 @@
+@use '../../styles/partials/index' as *;
+
+.avatar {
+  height: 2.25rem;
+  width: 2.25rem;
+  border-radius: 50%;
+  object-fit: cover;
+  background: $dim-brand-primary;
+
+  @include tablet {
+    height: 2.5rem;
+    width: 2.5rem;
+  }
+}

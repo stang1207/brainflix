@@ -1,0 +1,75 @@
+@use '../../styles/partials/index' as *;
+
+.header {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 1rem 1.5rem 1rem;
+  @include tablet {
+    padding: 2.25rem 1.5rem 1.5rem 1.5rem;
+  }
+}
+
+.nav {
+  @extend .container;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.5rem;
+  @include tablet {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__link {
+    align-self: center;
+    @include tablet {
+      align-self: flex-start;
+    }
+  }
+
+  &__logo {
+    min-height: 1.5625rem;
+    min-width: 7.5rem;
+  }
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  @include tablet {
+    gap: 1.5rem;
+  }
+
+  &__form {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    border-radius: 0.3rem;
+    border: 1px solid $dim-brand-primary;
+    background: $dim-brand-secondary;
+    padding: 0.7rem 1rem;
+    @include tablet;
+  }
+
+  &__input {
+    flex: 1;
+    font-size: 0.75rem;
+    border: none;
+    outline: none;
+    padding-left: 0.5rem;
+    background: inherit;
+  }
+
+  &__submit {
+    height: 1rem;
+    width: 1rem;
+    background: url('../../assets/icons/search.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: none;
+  }
+}

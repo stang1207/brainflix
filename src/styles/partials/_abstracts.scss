@@ -1,0 +1,30 @@
+//Colors
+$text-primary: #323232;
+$text-secondary: #afafaf;
+$background-primary: #ffffff;
+$background-secondary: #000000;
+$color-brand-primary: #0095ff;
+$color-brand-primary-dark: #0065ad;
+$dim-brand-primary: #e1e1e1;
+$dim-brand-secondary: #fafafa;
+
+//Breakpoints
+$breakpoints: (
+  // 768px
+  'tablet': 48em,
+  // 1280px
+  'desktop': 80em
+);
+
+//Breakpoint mixins
+@mixin tablet {
+  @media (min-width: map-get($breakpoints, 'tablet')) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: map-get($breakpoints, 'desktop')) {
+    @content;
+  }
+}
