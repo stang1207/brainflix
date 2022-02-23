@@ -1,3 +1,10 @@
+@use '../../styles/partials/abstracts' as *;
+
 .container {
-  max-width: 1000px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem 1.5rem 1.5rem;
+  @include tablet {
+    padding: 2.25rem 2rem 1.5rem 2rem;
+  }
 }

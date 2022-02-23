@@ -1,0 +1,67 @@
+@use '../../styles/partials/index' as *;
+
+.description {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  @include tablet {
+    gap: 0.5rem;
+  }
+
+  &__details {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 1rem;
+
+    color: $text-secondary;
+    border-top: 1px solid $dim-brand-primary;
+    border-bottom: 1px solid $dim-brand-primary;
+    padding: 1rem 0;
+
+    @include tablet {
+      gap: 1rem;
+      flex-wrap: nowrap;
+      border-top: none;
+    }
+  }
+
+  &__views,
+  &__date,
+  &__likes,
+  &__channel {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-basis: 50%;
+    white-space: nowrap;
+    @include tablet {
+      flex: 0;
+    }
+  }
+
+  &__channel {
+    @extend .heading-tertiary;
+    color: $text-primary;
+    @include tablet {
+      order: -2;
+    }
+  }
+  &__date {
+    @include tablet {
+      order: -1;
+      flex: 1;
+    }
+  }
+  &__title {
+    @extend .heading-primary;
+  }
+
+  &__text {
+    padding: 0.5rem 0;
+    @include tablet {
+      padding: 1rem 0;
+    }
+  }
+}

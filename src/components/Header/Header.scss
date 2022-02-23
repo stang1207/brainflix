@@ -1,14 +1,5 @@
 @use '../../styles/partials/index' as *;
 
-.header {
-  display: flex;
-  justify-content: center;
-  padding: 1rem 1rem 1.5rem 1rem;
-  @include tablet {
-    padding: 2.25rem 1.5rem 1.5rem 1.5rem;
-  }
-}
-
 .nav {
   @extend .container;
   flex: 1;
