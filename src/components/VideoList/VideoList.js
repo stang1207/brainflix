@@ -1,14 +1,13 @@
 import './VideoList.scss';
 import Video from '../Video/Video';
-import FakeVideos from '../../data/videos.json';
 
-const VideoList = ({ currentVideo, changeCurrentVideo }) => {
+const VideoList = ({ currentVideoID, changeCurrentVideo, videos }) => {
   return (
     <section className="sidebar">
       <h2 className="sidebar__title">Next videos</h2>
       <ul className="video-list">
-        {FakeVideos.map((video) => {
-          if (video.id !== currentVideo.id)
+        {videos.map((video) => {
+          if (video.id !== currentVideoID)
             return (
               <Video
                 key={video.id}

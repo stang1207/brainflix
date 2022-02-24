@@ -17,7 +17,7 @@ const Navbar = () => {
             <input type="text" className="search__input" placeholder="Search" />
           </form>
           <Button formId={'searchForm'}>
-            <img src={Upload} alt="site logo" />
+            <img src={Upload} alt="Upload icon" />
             <span>Upload</span>
           </Button>
           <Avatar />

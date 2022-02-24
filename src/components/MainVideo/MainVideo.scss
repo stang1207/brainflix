@@ -4,13 +4,13 @@
   width: 100%;
   aspect-ratio: 16 / 9;
   background: $background-secondary;
+
   &__player {
     position: absolute;
     height: 100%;
     width: 100%;
-    top: 0;
-    left: 0;
   }
+
   @include tablet {
     max-height: 75vh;
   }

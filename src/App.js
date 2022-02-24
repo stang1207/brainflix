@@ -1,20 +1,23 @@
 import { Component } from 'react';
-import './App.scss';
 import MainVideo from './components/MainVideo/MainVideo';
 import Header from './components/Header/Header';
 import VideoDescription from './components/VideoDescription/VideoDescription';
 import VideoList from './components/VideoList/VideoList';
-import FakeVideo from './data/video-details.json';
 import Comments from './components/Comments/Comments';
+
+import FakeVideosDetails from './data/video-details.json';
+import FakeVideoList from './data/videos.json';
+import './App.scss';
 
 export default class App extends Component {
   state = {
-    currentVideo: FakeVideo[0],
+    currentVideo: FakeVideosDetails[0],
+    videos: FakeVideoList,
   };
 
   changeCurrentVideo = (id) => {
     this.setState({
-      currentVideo: FakeVideo.find((video) => video.id === id),
+      currentVideo: FakeVideosDetails.find((video) => video.id === id),
     });
   };
 
@@ -32,7 +35,8 @@ export default class App extends Component {
               />
             </div>
             <VideoList
-              currentVideo={this.state.currentVideo}
+              videos={this.state.videos}
+              currentVideoID={this.state.currentVideo.id}
               changeCurrentVideo={this.changeCurrentVideo}
             />
           </section>
