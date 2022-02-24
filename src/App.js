@@ -2,7 +2,7 @@ import { Component } from 'react';
 import MainVideo from './components/MainVideo/MainVideo';
 import Header from './components/Header/Header';
 import VideoDescription from './components/VideoDescription/VideoDescription';
-import VideoList from './components/VideoList/VideoList';
+import Sidebar from './components/Sidebar/Sidebar';
 import Comments from './components/Comments/Comments';
 
 import FakeVideosDetails from './data/video-details.json';
@@ -14,7 +14,6 @@ export default class App extends Component {
     currentVideo: FakeVideosDetails[0],
     videos: FakeVideoList,
   };
-
   changeCurrentVideo = (id) => {
     this.setState({
       currentVideo: FakeVideosDetails.find((video) => video.id === id),
@@ -34,7 +33,7 @@ export default class App extends Component {
                 currentVideoComments={this.state.currentVideo.comments}
               />
             </div>
-            <VideoList
+            <Sidebar
               videos={this.state.videos}
               currentVideoID={this.state.currentVideo.id}
               changeCurrentVideo={this.changeCurrentVideo}

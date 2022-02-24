@@ -1,13 +1,14 @@
 import './VideoList.scss';
 import Video from '../Video/Video';
 
-const VideoList = ({ currentVideoID, changeCurrentVideo, videos }) => {
+const Sidebar = ({ currentVideoID, changeCurrentVideo, videos }) => {
   return (
     <section className="sidebar">
       <h2 className="sidebar__title">Next videos</h2>
-      <ul className="video-list">
-        {videos.map((video) => {
-          if (video.id !== currentVideoID)
+      <ul className="sidebar__video-list">
+        {videos
+          .filter((video) => video.id !== currentVideoID)
+          .map((video) => {
             return (
               <Video
                 key={video.id}
@@ -18,10 +19,10 @@ const VideoList = ({ currentVideoID, changeCurrentVideo, videos }) => {
                 changeCurrentVideo={changeCurrentVideo}
               />
             );
-        })}
+          })}
       </ul>
     </section>
   );
 };
 
-export default VideoList;
+export default Sidebar;

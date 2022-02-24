@@ -4,6 +4,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  align-items: center;
   border-left: none;
   padding: 0;
   @include tablet {
@@ -13,17 +14,18 @@
 
   &__title {
     @extend .heading-secondary;
+    align-self: flex-start;
     margin: 1.5rem 0;
     text-transform: uppercase;
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: #999;
     font-weight: 400;
   }
-}
 
-.video-list {
-  display: flex;
-  flex-direction: column;
-  list-style: none;
-  gap: 1rem;
+  &__video-list {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    gap: 1rem;
+  }
 }
