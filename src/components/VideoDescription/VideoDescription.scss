@@ -1,6 +1,7 @@
 @use '../../styles/partials/index' as *;
 
 .description {
+  flex: 5;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -54,14 +55,25 @@
       flex: 1;
     }
   }
+
+  &__likes {
+    @include tablet {
+      margin-right: 1.5rem;
+    }
+  }
+
   &__title {
     @extend .heading-primary;
+    width: 80%;
+    @include tablet {
+      width: 100%;
+    }
   }
 
   &__text {
-    padding: 0.5rem 0;
+    margin-bottom: 1.5rem;
     @include tablet {
-      padding: 1rem 0;
+      padding: 1rem 2rem 1.5rem 0;
     }
   }
 }

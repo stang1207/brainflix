@@ -1,0 +1,29 @@
+@use '../../styles/partials/index' as *;
+
+.sidebar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-left: none;
+  padding: 0;
+  @include tablet {
+    border-left: 1px solid $dim-brand-primary;
+    padding: 0 2rem;
+  }
+
+  &__title {
+    @extend .heading-secondary;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    color: #999;
+    font-weight: 400;
+  }
+}
+
+.video-list {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  gap: 1rem;
+}

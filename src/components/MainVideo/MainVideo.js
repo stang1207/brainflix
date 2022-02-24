@@ -1,13 +1,14 @@
 import './MainVideo.scss';
 import FakeVideos from '../../data/videos.json';
 
-const MainVideo = () => {
+const MainVideo = ({ currentVideo }) => {
+  console.log(currentVideo);
   return (
     <section className="main-video">
       <video
         controls
         preload="metadata"
-        poster={FakeVideos[0].image}
+        poster={currentVideo.image}
         className="main-video__player"
       >
         <source

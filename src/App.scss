@@ -1,1 +1,15 @@
 @use './styles/partials/index' as *;
+
+.content {
+  @extend .container;
+  display: flex;
+  flex-direction: column;
+
+  @include tablet {
+    flex-direction: row;
+  }
+
+  &__left {
+    flex: 2;
+  }
+}
