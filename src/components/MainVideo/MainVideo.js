@@ -1,8 +1,6 @@
 import './MainVideo.scss';
-import FakeVideos from '../../data/videos.json';
 
 const MainVideo = ({ currentVideo }) => {
-  console.log(currentVideo);
   return (
     <section className="main-video">
       <video

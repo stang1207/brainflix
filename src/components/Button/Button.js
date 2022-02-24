@@ -1,7 +1,7 @@
 import './Button.scss';
-const Button = ({ formId, children }) => {
+const Button = ({ formId, className, children }) => {
   return (
-    <button className="btn" form={formId}>
+    <button className={`btn ${className}`} form={formId}>
       {children}
     </button>
   );

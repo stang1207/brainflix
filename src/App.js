@@ -5,6 +5,7 @@ import Header from './components/Header/Header';
 import VideoDescription from './components/VideoDescription/VideoDescription';
 import VideoList from './components/VideoList/VideoList';
 import FakeVideo from './data/video-details.json';
+import Comments from './components/Comments/Comments';
 
 export default class App extends Component {
   state = {
@@ -26,6 +27,9 @@ export default class App extends Component {
           <section className="content">
             <div className="content__left">
               <VideoDescription currentVideo={this.state.currentVideo} />
+              <Comments
+                currentVideoComments={this.state.currentVideo.comments}
+              />
             </div>
             <VideoList
               currentVideo={this.state.currentVideo}

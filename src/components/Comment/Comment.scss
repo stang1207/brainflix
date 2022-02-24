@@ -1,0 +1,36 @@
+@use '../../styles/partials/index' as *;
+
+.comment {
+  display: flex;
+  gap: 1rem;
+  border-top: 1px solid $dim-brand-primary;
+  padding: 1.5rem 0;
+
+  &:last-of-type {
+    border-bottom: 1px solid $dim-brand-primary;
+    @include tablet {
+      border-bottom: none;
+    }
+  }
+
+  @include tablet {
+    gap: 1.5rem;
+  }
+
+  &__text-box {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    @include tablet {
+      gap: 0.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  &__author {
+    flex: 1;
+    font-weight: 600;
+  }
+}
