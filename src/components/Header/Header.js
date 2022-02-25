@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
+
 import './Header.scss';
 import SiteLogo from '../../assets/logos/BrainFlix-logo.svg';
+import DefaultAvatar from '../../assets/images/Mohan-muruge.jpg';
 import Upload from '../../assets/icons/upload.svg';
+
 import Button from '../Button/Button';
 import Avatar from '../Avatar/Avatar';
+import Box from '../Box/Box';
 
 export default class Header extends Component {
   state = {
@@ -36,9 +40,9 @@ export default class Header extends Component {
           <a className="nav__link" href="/">
             <img src={SiteLogo} alt="site logo" className="nav__logo" />
           </a>
-          <div className="search">
+          <Box className="nav__right" element="section">
             <form
-              className="search__form"
+              className="search"
               id="searchForm"
               onSubmit={this.formSubmitEvent}
             >
@@ -57,8 +61,12 @@ export default class Header extends Component {
               img={Upload}
               imgAlt={'Upload icon'}
             />
-            <Avatar className={'nav__avatar'} />
-          </div>
+            <Avatar
+              linkURL={DefaultAvatar}
+              alt="Navbar avatar"
+              className={'nav__avatar'}
+            />
+          </Box>
         </nav>
       </header>
     );

@@ -1,7 +1,7 @@
 @use '../../styles/partials/index' as *;
 .comments {
-  display: flex;
-  flex-direction: column;
+  margin-top: 2rem;
+  @include d-flex-column;
   gap: 0.5rem;
 
   &__number {
@@ -10,9 +10,9 @@
   }
 
   &__container {
-    display: flex;
+    @include d-flex;
+    @include justify-align-center;
     gap: 1rem;
-    align-items: center;
     padding: 0rem 1.5rem 1rem 0;
     @include tablet {
       gap: 1.5rem;
@@ -21,7 +21,7 @@
   }
 
   &__avatar {
-    transform: translateY(-0.7rem);
+    transform: translateY(-1.5rem);
     @include tablet {
       transform: none;
     }
@@ -29,7 +29,7 @@
 
   &__form {
     flex: 1;
-    display: flex;
+    @include d-flex;
     flex-wrap: wrap;
     align-items: flex-end;
     gap: 1rem;
@@ -41,8 +41,7 @@
 
   &__input-group {
     flex: 1;
-    display: flex;
-    flex-direction: column;
+    @include d-flex-column;
     gap: 0.5rem;
   }
 

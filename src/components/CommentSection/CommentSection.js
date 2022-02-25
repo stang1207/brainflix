@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+
 import './CommentSection.scss';
-import Avatar from '../Avatar/Avatar';
+import DefaultAvatar from '../../assets/images/Mohan-muruge.jpg';
 import CommentIcon from '../../assets/icons/add_comment.svg';
+
+import Avatar from '../Avatar/Avatar';
 import Button from '../Button/Button';
 import Comment from '../Comment/Comment';
 
@@ -36,7 +39,11 @@ export default class CommentSection extends Component {
         </h3>
 
         <div className="comments__container">
-          <Avatar className="comments__avatar" />
+          <Avatar
+            linkURL={DefaultAvatar}
+            imgAlt="user avatar"
+            className="comments__avatar"
+          />
           <form className="comments__form" onSubmit={this.formSubmitEvent}>
             <div className="comments__input-group">
               <label htmlFor="comments__input" className="comments__label">

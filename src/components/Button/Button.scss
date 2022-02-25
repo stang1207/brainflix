@@ -12,9 +12,8 @@
   @extend .label-text;
   text-transform: uppercase;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include d-flex;
+  @include justify-align-center;
 
   color: $background-primary;
   background: $color-brand-primary;

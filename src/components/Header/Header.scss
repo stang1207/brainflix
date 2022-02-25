@@ -2,12 +2,11 @@
 
 .nav {
   @extend .container;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  @include d-flex-column;
+  @include justify-align-center;
   gap: 0.5rem;
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 
   @include tablet {
     flex-direction: row;
@@ -34,27 +33,28 @@
       order: 2;
     }
   }
+
+  &__right {
+    @include d-flex;
+    @include justify-align-center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    @include tablet {
+      gap: 1.5rem;
+    }
+  }
 }
 
 .search {
-  display: flex;
+  flex: 1;
+  @include d-flex;
+  // @include justify-align-center;
   align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-  @include tablet {
-    gap: 1.5rem;
-  }
-
-  &__form {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    min-width: 15rem;
-    border-radius: 0.3rem;
-    border: 1px solid $dim-brand-primary;
-    background: $dim-brand-secondary;
-    font-size: 0.75rem;
-  }
+  min-width: 15rem;
+  border-radius: 0.3rem;
+  border: 1px solid $dim-brand-primary;
+  background: $dim-brand-secondary;
+  font-size: 0.75rem;
 
   &__input {
     height: 2.25rem;
@@ -64,7 +64,7 @@
       padding: 1rem;
     }
 
-    flex: 1;
+    // flex: 1;
     font-size: inherit;
     border: none;
     outline: none;

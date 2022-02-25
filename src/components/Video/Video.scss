@@ -2,18 +2,17 @@
 
 .video {
   cursor: pointer;
-  display: flex;
+  @include d-flex;
   gap: 1rem;
 
   &__thumbnail {
-    max-width: 10rem;
+    max-width: 8.5rem;
     aspect-ratio: 16/9;
     object-fit: cover;
     border-radius: 0.3125rem;
   }
   &__text-box {
-    display: flex;
-    flex-direction: column;
+    @include d-flex-column;
     justify-content: space-evenly;
   }
 
@@ -25,8 +24,5 @@
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    @include tablet {
-      max-width: 13rem;
-    }
   }
 }

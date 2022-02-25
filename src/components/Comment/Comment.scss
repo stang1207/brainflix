@@ -1,14 +1,13 @@
 @use '../../styles/partials/index' as *;
 
 .comment {
-  display: flex;
+  @include d-flex;
   align-items: flex-start;
   border-top: 1px solid $dim-brand-primary;
-  padding: 1rem 0;
+  padding: 1.5rem 0;
 
   gap: 1rem;
   @include tablet {
-    padding: 1.5rem 0;
     gap: 1.5rem;
   }
 
@@ -21,9 +20,9 @@
 
   &__text-box {
     flex: 1;
-    display: flex;
-    justify-content: flex-end;
+    @include d-flex;
     flex-wrap: wrap;
+    justify-content: flex-start;
     gap: 0.5rem;
     @include tablet {
       padding-right: 1.5rem;
@@ -37,5 +36,9 @@
 
   &__date {
     color: $text-secondary;
+  }
+
+  &__text {
+    flex-basis: 100%;
   }
 }

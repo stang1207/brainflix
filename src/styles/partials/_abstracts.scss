@@ -28,3 +28,20 @@ $breakpoints: (
     @content;
   }
 }
+
+//Mixins
+
+@mixin d-flex {
+  display: flex;
+  flex-direction: row;
+}
+
+@mixin d-flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin justify-align-center {
+  justify-content: center;
+  align-items: center;
+}

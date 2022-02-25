@@ -1,29 +1,18 @@
 @use '../../styles/partials/index' as *;
 .main-video {
-  position: relative;
-  margin: 0 auto;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background: $background-secondary;
+  background-color: $background-secondary;
+  display: flex;
+  justify-content: center;
+
+  &__content {
+    position: relative;
+    max-width: 64.5rem;
+    line-height: 0;
+  }
 
   &__player {
-    position: absolute;
-    height: 100%;
     width: 100%;
-  }
-
-  @include tablet {
-    max-height: 75vh;
-  }
-
-  //This is for adding the dark background in Chrome
-  &::before {
-    content: '';
-    background: $background-secondary;
-    position: absolute;
-    z-index: -1;
     height: 100%;
-    width: 200vw;
-    left: -100%;
+    object-fit: cover;
   }
 }

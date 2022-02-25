@@ -1,7 +1,6 @@
 import './Video.scss';
-import Avatar from '../../assets/images/Mohan-muruge.jpg';
 
-const Video = ({ video, imgUrl = Avatar, changeCurrentVideo }) => {
+const Video = ({ video, imgUrl, changeCurrentVideo }) => {
   return (
     <li className="video" onClick={() => changeCurrentVideo(video.id)}>
       <img src={imgUrl} alt="" className="video__thumbnail" />

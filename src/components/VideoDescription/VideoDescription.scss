@@ -1,15 +1,13 @@
 @use '../../styles/partials/index' as *;
 
 .description {
-  display: flex;
-  flex-direction: column;
-  margin-top: 1.5rem;
-
+  @include d-flex-column;
+  margin: 1rem 0;
   gap: 1rem;
-  @include tablet {
+
+  @include desktop {
     gap: 0.5rem;
-    min-height: 18rem;
-    max-height: 20rem;
+    max-height: 17.5rem;
   }
 
   &__title {
@@ -21,8 +19,8 @@
   &__details {
     @extend .body-text;
     list-style: none;
-    display: flex;
-    align-items: center;
+    @include d-flex;
+    @include justify-align-center;
     flex-wrap: wrap;
     row-gap: 1rem;
 
@@ -44,7 +42,7 @@
   &__likes,
   &__channel {
     flex: 1;
-    display: flex;
+    @include d-flex;
     align-items: center;
     flex-basis: 50%;
     gap: 0.5rem;
@@ -73,10 +71,17 @@
   }
 
   &__text {
-    margin-bottom: 1rem;
     @include tablet {
-      overflow: scroll;
-      padding: 0.5rem 1.5rem 0.5rem 0;
+      padding: 0.5rem 1.5rem 0 0;
     }
+  }
+
+  &__show-btn {
+    cursor: pointer;
+    color: $text-primary;
+    font-weight: 600;
+    font-size: 0.8rem;
+    max-width: 10rem;
+    border-radius: 0.3rem;
   }
 }
