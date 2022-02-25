@@ -1,7 +1,7 @@
 import './VideoDescription.scss';
 import LikeIcon from '../../assets/icons/likes.svg';
 import ViewIcon from '../../assets/icons/views.svg';
-import { getReadableDate } from '../../utils/date';
+import relativeDate from 'relative-date-test';
 
 const VideoDescription = ({ currentVideo }) => {
   return (
@@ -18,7 +18,7 @@ const VideoDescription = ({ currentVideo }) => {
           <span>{currentVideo.views}</span>
         </li>
         <li className="description__date">
-          {getReadableDate(+currentVideo.timestamp)}
+          {relativeDate.mdy(+currentVideo.timestamp)}
         </li>
         <li className="description__likes">
           <img

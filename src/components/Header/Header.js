@@ -1,30 +1,66 @@
+import React, { Component } from 'react';
 import './Header.scss';
 import SiteLogo from '../../assets/logos/BrainFlix-logo.svg';
 import Upload from '../../assets/icons/upload.svg';
 import Button from '../Button/Button';
 import Avatar from '../Avatar/Avatar';
 
-const Navbar = () => {
-  return (
-    <header className="header">
-      <nav className="nav">
-        <a className="nav__link" href="/">
-          <img src={SiteLogo} alt="site logo" className="nav__logo" />
-        </a>
-        <div className="search">
-          <form className="search__form" id="searchForm">
-            <button className="search__submit"></button>
-            <input type="text" className="search__input" placeholder="Search" />
-          </form>
-          <Button formId={'searchForm'}>
-            <img src={Upload} alt="Upload icon" />
-            <span>Upload</span>
-          </Button>
-          <Avatar />
-        </div>
-      </nav>
-    </header>
-  );
-};
+export default class Header extends Component {
+  state = {
+    input: '',
+  };
+  formSubmitEvent(e) {
+    e.preventDefault();
+    if (!e.target.searchInput.value)
+      return e.target.classList.add('search__input--error');
+    e.target.searchInput.value = '';
+    e.target.classList.remove('search__input--success');
+    e.target.classList.remove('search__input--error');
+  }
+  formInputChange(e) {
+    if (e.target.value)
+      e.target.closest('form').classList.add('search__input--success');
 
-export default Navbar;
+    if (!e.target.value) {
+      e.target.closest('form').classList.remove('search__input--error');
+      e.target.closest('form').classList.remove('search__input--success');
+    }
+    this.setState({
+      input: e.target.value,
+    });
+  }
+  render() {
+    return (
+      <header className="header">
+        <nav className="nav">
+          <a className="nav__link" href="/">
+            <img src={SiteLogo} alt="site logo" className="nav__logo" />
+          </a>
+          <div className="search">
+            <form
+              className="search__form"
+              id="searchForm"
+              onSubmit={this.formSubmitEvent}
+            >
+              <button className="search__submit"></button>
+              <input
+                type="text"
+                className="search__input"
+                placeholder="Search"
+                name="searchInput"
+                onChange={(e) => this.formInputChange(e)}
+              />
+            </form>
+            <Button
+              className="nav__btn"
+              text="Upload"
+              img={Upload}
+              imgAlt={'Upload icon'}
+            />
+            <Avatar className={'nav__avatar'} />
+          </div>
+        </nav>
+      </header>
+    );
+  }
+}

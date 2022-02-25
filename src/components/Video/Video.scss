@@ -3,7 +3,6 @@
 .video {
   cursor: pointer;
   display: flex;
-  align-items: stretch;
   gap: 1rem;
 
   &__thumbnail {
@@ -20,20 +19,14 @@
 
   &__title {
     @extend .heading-tertiary;
-    max-width: 12rem;
+    max-width: 11rem;
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-
+    display: -moz-box;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
     @include tablet {
-      overflow: none;
-      text-overflow: initial;
-      white-space: normal;
+      max-width: 13rem;
     }
   }
-
-  // &__author {
-  //   // overflow: hidden;
-  //   // text-overflow: ellipsis;
-  // }
 }

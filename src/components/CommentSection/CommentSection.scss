@@ -1,0 +1,86 @@
+@use '../../styles/partials/index' as *;
+.comments {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  &__number {
+    @extend .heading-secondary;
+    margin: 0.5rem 0;
+  }
+
+  &__container {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    padding: 0rem 1.5rem 1rem 0;
+    @include tablet {
+      gap: 1.5rem;
+      align-items: flex-end;
+    }
+  }
+
+  &__avatar {
+    transform: translateY(-0.7rem);
+    @include tablet {
+      transform: none;
+    }
+  }
+
+  &__form {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 1rem;
+    @include tablet {
+      flex-wrap: nowrap;
+      gap: 1.5rem;
+    }
+  }
+
+  &__input-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__input {
+    min-width: 15rem;
+    min-height: 2.25rem;
+    font-family: inherit;
+    font-size: inherit;
+    border-radius: 0.3rem;
+    border: 1px solid $dim-brand-primary;
+    background-color: $dim-brand-secondary;
+    padding: 0.75rem;
+    outline: none;
+    resize: none;
+    @include tablet {
+      max-height: 2.5rem;
+      overflow: hidden;
+    }
+
+    &--error {
+      border: 1px solid #d22d2d;
+    }
+
+    &--success {
+      border: 1px solid $color-brand-primary;
+    }
+  }
+
+  &__label {
+    @extend .label-text;
+    text-transform: uppercase;
+    color: $text-secondary;
+  }
+
+  &__btn {
+    flex-basis: 100%;
+    @include tablet {
+      flex-basis: auto;
+    }
+  }
+}

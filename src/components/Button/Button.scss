@@ -1,38 +1,31 @@
 @use '../../styles/partials/index' as *;
 
 .btn {
-  cursor: pointer;
   position: relative;
-  min-height: 2.6rem;
+  cursor: pointer;
+  min-width: 9.375rem;
+  height: 2.5rem;
+
+  border: none;
+  border-radius: 0.3rem;
+
+  @extend .label-text;
+  text-transform: uppercase;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  @extend .label-text;
-  text-transform: uppercase;
-
-  background: $color-brand-primary;
   color: $background-primary;
+  background: $color-brand-primary;
+  transition: background 0.1s;
 
-  border: none;
-  border-radius: 0.3rem;
-
-  flex-basis: 100%;
-  order: 1;
-  transition: all 0.2s;
-
-  @include tablet {
-    min-width: 10rem;
-    flex-basis: auto;
-  }
-
-  img {
-    height: 1.5625rem;
-    width: 1.5625rem;
-    object-fit: cover;
+  &__img {
     position: absolute;
+    top: 50%;
     left: 1rem;
+    transform: translateY(-50%);
+    object-fit: cover;
   }
 
   &:hover {

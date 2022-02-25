@@ -3,7 +3,7 @@ import MainVideo from './components/MainVideo/MainVideo';
 import Header from './components/Header/Header';
 import VideoDescription from './components/VideoDescription/VideoDescription';
 import Sidebar from './components/Sidebar/Sidebar';
-import Comments from './components/Comments/Comments';
+import CommentSection from './components/CommentSection/CommentSection';
 
 import FakeVideosDetails from './data/video-details.json';
 import FakeVideoList from './data/videos.json';
@@ -29,7 +29,7 @@ export default class App extends Component {
           <section className="content">
             <div className="content__left">
               <VideoDescription currentVideo={this.state.currentVideo} />
-              <Comments
+              <CommentSection
                 currentVideoComments={this.state.currentVideo.comments}
               />
             </div>

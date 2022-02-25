@@ -1,7 +1,7 @@
 import './Comment.scss';
 import Avatar from '../Avatar/Avatar';
 import DefaultCommentAvatar from '../../assets/images/user.png';
-import { getRelativeDate } from '../../utils/date';
+import relativeDate from 'relative-date-test';
 
 const Comment = ({
   comment,
@@ -15,7 +15,9 @@ const Comment = ({
       <Avatar className="comment__avatar" linkURL={imgURL} />
       <div className="comment__text-box">
         <p className="comment__author">{name}</p>
-        <time className="comment__date">{getRelativeDate(timestamp)}</time>
+        <time className="comment__date">
+          {relativeDate.getRelativeDate(timestamp)}
+        </time>
         <p className="comment__text">{comment}</p>
       </div>
     </li>
