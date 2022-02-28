@@ -30,7 +30,7 @@ export default class App extends Component {
         <Box element="main" className="main">
           <MainVideo currentVideo={this.state.currentVideo} />
           <Container element="section" className="content">
-            <Box element="section" className="content__left">
+            <Box element="div" className="content__left">
               <VideoDescription currentVideo={this.state.currentVideo} />
               <CommentSection
                 currentVideoComments={this.state.currentVideo.comments}

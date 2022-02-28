@@ -9,27 +9,37 @@ import Button from '../Button/Button';
 import Comment from '../Comment/Comment';
 
 export default class CommentSection extends Component {
-  state = {
-    input: '',
-  };
-  formSubmitEvent(e) {
+  constructor(props) {
+    super(props);
+    this.inputRef = React.createRef();
+    this.state = {
+      commentInput: '',
+    };
+  }
+  formSubmitEvent = (e) => {
     e.preventDefault();
-    if (!e.target.comment.value)
-      return e.target.comment.classList.add('comments__input--error');
-    e.target.comment.value = '';
-    e.target.comment.classList.remove('comments__input--success');
-    e.target.comment.classList.remove('comments__input--error');
-  }
-  formInputChange(e) {
-    if (e.target.value) e.target.classList.add('comments__input--success');
-    if (!e.target.value) {
-      e.target.classList.remove('comments__input--error');
-      e.target.classList.remove('comments__input--success');
+    if (!this.state.commentInput.trim()) {
+      this.setState({ commentInput: '' });
+      this.inputRef.current.classList.remove('comments__input--success');
+      return this.inputRef.current.classList.add('comments__input--error');
     }
+    //Return to default state
+    this.setState({ commentInput: '' });
+    this.inputRef.current.classList.remove('comments__input--success');
+    this.inputRef.current.classList.remove('comments__input--error');
+  };
+  handleInputChange = (e) => {
     this.setState({
-      input: e.target.value,
+      commentInput: e.target.value,
     });
-  }
+    if (e.target.value) {
+      e.target.classList.add('comments__input--success');
+    }
+    if (!e.target.value) {
+      e.target.classList.remove('comments__input--success');
+      e.target.classList.remove('comments__input--error');
+    }
+  };
 
   render() {
     return (
@@ -50,10 +60,13 @@ export default class CommentSection extends Component {
                 Join the Conversation
               </label>
               <textarea
-                placeholder="Add a new comment..."
-                className={'comments__input'}
+                placeholder="Add a new comment"
+                className="comments__input"
+                id="comments__input"
                 name="comment"
-                onChange={(e) => this.formInputChange(e)}
+                onChange={this.handleInputChange}
+                value={this.state.commentInput || ''}
+                ref={this.inputRef}
               ></textarea>
             </div>
             <Button

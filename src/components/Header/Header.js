@@ -13,26 +13,29 @@ export default class Header extends Component {
   state = {
     input: '',
   };
-  formSubmitEvent(e) {
+  formRef = React.createRef();
+  formSubmitEvent = (e) => {
     e.preventDefault();
-    if (!e.target.searchInput.value)
+    this.formRef.current.classList.remove('search__input--success');
+    if (!this.state.input.trim()) {
+      this.setState({ input: '' });
       return e.target.classList.add('search__input--error');
-    e.target.searchInput.value = '';
-    e.target.classList.remove('search__input--success');
-    e.target.classList.remove('search__input--error');
-  }
-  formInputChange(e) {
-    if (e.target.value)
-      e.target.closest('form').classList.add('search__input--success');
-
-    if (!e.target.value) {
-      e.target.closest('form').classList.remove('search__input--error');
-      e.target.closest('form').classList.remove('search__input--success');
     }
+    this.setState({ input: '' });
+    this.formRef.current.classList.remove('search__input--success');
+    this.formRef.current.classList.remove('search__input--error');
+  };
+  formInputChange = (e) => {
     this.setState({
       input: e.target.value,
     });
-  }
+    if (e.target.value)
+      this.formRef.current.classList.add('search__input--success');
+    if (!e.target.value) {
+      this.formRef.current.classList.remove('search__input--error');
+      this.formRef.current.classList.remove('search__input--success');
+    }
+  };
   render() {
     return (
       <header className="header">
@@ -40,11 +43,12 @@ export default class Header extends Component {
           <a className="nav__link" href="/">
             <img src={SiteLogo} alt="site logo" className="nav__logo" />
           </a>
-          <Box className="nav__right" element="section">
+          <Box className="nav__right">
             <form
               className="search"
               id="searchForm"
               onSubmit={this.formSubmitEvent}
+              ref={this.formRef}
             >
               <button className="search__submit"></button>
               <input
@@ -53,6 +57,7 @@ export default class Header extends Component {
                 placeholder="Search"
                 name="searchInput"
                 onChange={(e) => this.formInputChange(e)}
+                value={this.state.input}
               />
             </form>
             <Button
