@@ -1,5 +1,9 @@
 @use '../../styles/partials/index' as *;
 
+.header {
+  border-bottom: 1px solid $dim-brand-primary;
+}
+
 .nav {
   @extend .container;
   @include d-flex-column;

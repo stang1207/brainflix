@@ -1,0 +1,11 @@
+@use '../../styles/partials/index' as *;
+
+.content {
+  @include desktop {
+    @include d-flex;
+  }
+
+  &__left {
+    flex: 2;
+  }
+}

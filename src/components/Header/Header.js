@@ -4,8 +4,9 @@ import './Header.scss';
 import SiteLogo from '../../assets/logos/BrainFlix-logo.svg';
 import DefaultAvatar from '../../assets/images/Mohan-muruge.jpg';
 import Upload from '../../assets/icons/upload.svg';
-
+import ButtonLink from '../ButtonLink/ButtonLink';
 import Button from '../Button/Button';
+import { Link } from 'react-router-dom';
 import Avatar from '../Avatar/Avatar';
 import Box from '../Box/Box';
 
@@ -40,9 +41,9 @@ export default class Header extends Component {
     return (
       <header className="header">
         <nav className="nav">
-          <a className="nav__link" href="/">
+          <Link to="/">
             <img src={SiteLogo} alt="site logo" className="nav__logo" />
-          </a>
+          </Link>
           <Box className="nav__right">
             <form
               className="search"
@@ -60,8 +61,9 @@ export default class Header extends Component {
                 value={this.state.input}
               />
             </form>
-            <Button
-              className="nav__btn"
+            <ButtonLink
+              to="/upload"
+              className="link-btn nav__btn"
               text="Upload"
               img={Upload}
               imgAlt={'Upload icon'}

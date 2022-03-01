@@ -1,0 +1,108 @@
+@use '../../styles/partials/index' as *;
+
+.upload {
+  @extend .container;
+  &__heading {
+    @extend .heading-primary;
+    padding: 1.5rem 0;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    @include tablet {
+      flex-direction: row;
+      border-top: 1px solid $dim-brand-primary;
+      padding: 2rem 0;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+  }
+
+  &__details {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    @include tablet {
+      gap: 0.5rem;
+    }
+  }
+
+  &__input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    &--thumbnail {
+      flex-basis: 30%;
+    }
+    &--description {
+      flex: 1;
+    }
+  }
+
+  &__input {
+    border: 1px solid $dim-brand-primary;
+    background-color: $dim-brand-secondary;
+    border-radius: 0.3125rem;
+    font-family: inherit;
+    font-size: inherit;
+    padding: 1rem;
+    color: $text-primary;
+
+    &--thumbnail {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 0.3125rem;
+    }
+    &--title {
+      max-height: 2.5rem;
+    }
+    &--description {
+      flex: 1;
+    }
+  }
+
+  &__label {
+    @extend .heading-secondary;
+    font-weight: 400;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    text-transform: uppercase;
+    color: $text-secondary;
+  }
+
+  &__btns {
+    padding-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+    flex-basis: 100%;
+
+    @include tablet {
+      gap: 3rem;
+      justify-content: flex-end;
+      flex-direction: row;
+      border-top: 1px solid $dim-brand-primary;
+      margin-top: 1rem;
+    }
+  }
+
+  &__publish {
+    align-self: stretch;
+  }
+
+  &__cancel {
+    order: 2;
+    color: $color-brand-primary;
+    text-decoration: none;
+    font-weight: 700;
+    @include tablet {
+      order: initial;
+    }
+  }
+}
