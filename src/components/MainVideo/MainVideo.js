@@ -11,7 +11,7 @@ export default class MainVideo extends Component {
           <video
             controls
             preload="metadata"
-            poster={this.props.currentVideo.image}
+            poster={this.props.currentVideo && this.props.currentVideo.image}
             className="main-video__player"
             src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
             ref={this.videoRef}

@@ -11,9 +11,6 @@ const VideoList = ({ changeCurrentVideo, videos }) => {
             <Video
               key={video.id}
               video={video}
-              videoTitle={video.title}
-              videoAuthor={video.channel}
-              imgUrl={video.image}
               changeCurrentVideo={changeCurrentVideo}
             />
           );

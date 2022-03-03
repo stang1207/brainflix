@@ -15,13 +15,16 @@ export default class VideoDescription extends Component {
 
   render() {
     const trimmedText =
+      this.props.currentVideo &&
       this.props.currentVideo.description.slice(0, 200) + '...';
     return (
       <section className="description">
-        <h2 className="description__title">{this.props.currentVideo.title}</h2>
+        <h2 className="description__title">
+          {this.props.currentVideo && this.props.currentVideo.title}
+        </h2>
         <ul className="description__details">
           <li className="description__channel">
-            By {this.props.currentVideo.channel}
+            By {this.props.currentVideo && this.props.currentVideo.channel}
           </li>
           <li className="description__views">
             <img
@@ -29,10 +32,14 @@ export default class VideoDescription extends Component {
               className="description__icon"
               alt="views icon"
             ></img>
-            <span>{this.props.currentVideo.views}</span>
+            <span>
+              {this.props.currentVideo && this.props.currentVideo.views}
+            </span>
           </li>
           <li className="description__date">
-            {relativeDate.mdy(this.props.currentVideo.timestamp)}
+            {relativeDate.mdy(
+              this.props.currentVideo && this.props.currentVideo.timestamp
+            )}
           </li>
           <li className="description__likes">
             <img
@@ -40,7 +47,9 @@ export default class VideoDescription extends Component {
               className="description__icon"
               alt="likes icon"
             ></img>
-            <span>{this.props.currentVideo.likes}</span>
+            <span>
+              {this.props.currentVideo && this.props.currentVideo.likes}
+            </span>
           </li>
         </ul>
         <p className="description__text">

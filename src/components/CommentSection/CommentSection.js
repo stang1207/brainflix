@@ -45,7 +45,9 @@ export default class CommentSection extends Component {
     return (
       <section className="comments">
         <h3 className="comments__number">
-          {this.props.currentVideoComments.length} Comments
+          {this.props.currentVideoComments &&
+            this.props.currentVideoComments.length}
+          Comments
         </h3>
 
         <div className="comments__container">

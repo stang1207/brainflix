@@ -1,9 +1,12 @@
 @use '../../styles/partials/index' as *;
 
 .video {
-  cursor: pointer;
-  @include d-flex;
-  gap: 1rem;
+  &__link {
+    @include d-flex;
+    gap: 1rem;
+    text-decoration: none;
+    color: inherit;
+  }
 
   &__thumbnail {
     max-width: 8.5rem;
