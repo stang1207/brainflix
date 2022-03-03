@@ -7,7 +7,7 @@
 .nav {
   @extend .container;
   @include d-flex-column;
-  @include justify-align-center;
+  align-items: stretch;
   gap: 0.5rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
@@ -15,8 +15,12 @@
   @include tablet {
     flex-direction: row;
     justify-content: space-between;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  &__link {
+    align-self: center;
   }
 
   &__logo {
@@ -24,7 +28,7 @@
     width: 7.5rem;
   }
 
-  &__btn {
+  &__upload-btn {
     flex-basis: 100%;
     order: 1;
     @include tablet {
@@ -59,8 +63,10 @@
   border: 1px solid $dim-brand-primary;
   background: $dim-brand-secondary;
   font-size: 0.75rem;
+  overflow: hidden;
 
   &__input {
+    flex: 1;
     height: 2.25rem;
     padding: 0.75rem;
     @include tablet {

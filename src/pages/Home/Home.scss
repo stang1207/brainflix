@@ -1,10 +1,11 @@
 @use '../../styles/partials/index' as *;
 
 .content {
-  @include desktop {
-    @include d-flex;
+  @extend .container;
+  @include d-flex-column;
+  @include tablet {
+    flex-direction: row;
   }
-
   &__left {
     flex: 2;
   }

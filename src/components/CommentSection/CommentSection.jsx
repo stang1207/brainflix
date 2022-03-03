@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 
-import './CommentSection.scss';
-import DefaultAvatar from '../../assets/images/Mohan-muruge.jpg';
-import CommentIcon from '../../assets/icons/add_comment.svg';
-
 import Avatar from '../Avatar/Avatar';
 import Button from '../Button/Button';
 import Comment from '../Comment/Comment';
+
+import './CommentSection.scss';
+import DefaultAvatar from '../../assets/images/Mohan-muruge.jpg';
+import CommentIcon from '../../assets/icons/add_comment.svg';
 
 export default class CommentSection extends Component {
   constructor(props) {
@@ -45,14 +45,11 @@ export default class CommentSection extends Component {
     return (
       <section className="comments">
         <h3 className="comments__number">
-          {this.props.currentVideoComments &&
-            this.props.currentVideoComments.length}
-          Comments
+          {this.props.currentVideoComments.length} Comments
         </h3>
-
         <div className="comments__container">
           <Avatar
-            linkURL={DefaultAvatar}
+            src={DefaultAvatar}
             imgAlt="user avatar"
             className="comments__avatar"
           />
@@ -67,9 +64,9 @@ export default class CommentSection extends Component {
                 id="comments__input"
                 name="comment"
                 onChange={this.handleInputChange}
-                value={this.state.commentInput || ''}
+                value={this.state.commentInput}
                 ref={this.inputRef}
-              ></textarea>
+              />
             </div>
             <Button
               className="comments__btn"
@@ -79,7 +76,6 @@ export default class CommentSection extends Component {
             ></Button>
           </form>
         </div>
-
         <ul className="comments__list">
           {this.props.currentVideoComments &&
             this.props.currentVideoComments.map((comment, i) => {

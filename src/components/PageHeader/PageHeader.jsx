@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
-
-import './Header.scss';
+import { Link } from 'react-router-dom';
+import Button from '../Button/Button.jsx';
+import Avatar from '../Avatar/Avatar.jsx';
 import SiteLogo from '../../assets/logos/BrainFlix-logo.svg';
 import DefaultAvatar from '../../assets/images/Mohan-muruge.jpg';
 import Upload from '../../assets/icons/upload.svg';
-import ButtonLink from '../ButtonLink/ButtonLink';
-import Button from '../Button/Button';
-import { Link } from 'react-router-dom';
-import Avatar from '../Avatar/Avatar';
-import Box from '../Box/Box';
-
-export default class Header extends Component {
+import './PageHeader.scss';
+export default class PageHeader extends Component {
   state = {
     input: '',
   };
@@ -37,17 +33,17 @@ export default class Header extends Component {
       this.formRef.current.classList.remove('search__input--success');
     }
   };
+
   render() {
     return (
       <header className="header">
         <nav className="nav">
-          <Link to="/">
+          <Link className="nav__link" to="/">
             <img src={SiteLogo} alt="site logo" className="nav__logo" />
           </Link>
-          <Box className="nav__right">
+          <div className="nav__right">
             <form
               className="search"
-              id="searchForm"
               onSubmit={this.formSubmitEvent}
               ref={this.formRef}
             >
@@ -56,24 +52,25 @@ export default class Header extends Component {
                 type="text"
                 className="search__input"
                 placeholder="Search"
-                name="searchInput"
+                name="search-input"
                 onChange={(e) => this.formInputChange(e)}
                 value={this.state.input}
               />
             </form>
-            <ButtonLink
-              to="/upload"
-              className="link-btn nav__btn"
+            <Button
+              className="nav__upload-btn"
               text="Upload"
               img={Upload}
-              imgAlt={'Upload icon'}
+              imgAlt="Upload icon"
+              isLink
+              to="/upload"
             />
             <Avatar
-              linkURL={DefaultAvatar}
-              alt="Navbar avatar"
-              className={'nav__avatar'}
+              className="nav__avatar"
+              alt="user avatar"
+              src={DefaultAvatar}
             />
-          </Box>
+          </div>
         </nav>
       </header>
     );

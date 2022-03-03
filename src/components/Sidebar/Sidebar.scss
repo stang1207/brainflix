@@ -2,24 +2,19 @@
 
 .sidebar {
   flex: 1;
-  @include d-flex-column;
   border-left: none;
-  padding: 0;
   padding-bottom: 2rem;
-
-  @include desktop {
+  @include tablet {
     border-left: 1px solid $dim-brand-primary;
     padding: 0 0 2rem 2rem;
   }
 
-  &__title {
-    @extend .heading-secondary;
-    align-self: flex-start;
+  &__heading {
+    @extend .heading-tertiary;
     margin: 1.5rem 0;
     text-transform: uppercase;
-    font-size: 1rem;
-    color: #999;
-    font-weight: 400;
+    color: $text-secondary;
+    font-weight: 600;
   }
 
   &__video-list {

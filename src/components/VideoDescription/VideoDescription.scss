@@ -5,15 +5,15 @@
   margin: 1rem 0;
   gap: 1rem;
 
-  @include desktop {
+  @include tablet {
     gap: 0.5rem;
-    max-height: 17.5rem;
   }
 
   &__title {
     width: 90%;
     @extend .heading-primary;
     overflow-wrap: break-word;
+    margin-top: 0.5rem;
   }
 
   &__details {
@@ -22,7 +22,7 @@
     @include d-flex;
     @include justify-align-center;
     flex-wrap: wrap;
-    row-gap: 1rem;
+    row-gap: 0.5rem;
 
     color: $text-secondary;
     border-top: 1px solid $dim-brand-primary;
@@ -59,6 +59,7 @@
   &__channel {
     color: $text-primary;
     @extend .heading-tertiary;
+    font-weight: 600;
     @include tablet {
       order: -1;
     }

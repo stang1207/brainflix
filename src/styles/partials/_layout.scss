@@ -1,7 +1,8 @@
 @use '../../styles/partials/abstracts' as *;
+@use '../../styles/partials/mixins' as *;
 
 .container {
-  max-width: 68.75rem;
+  max-width: 65rem;
   margin: 0 auto;
   padding: 0 1.5rem;
   @include tablet {

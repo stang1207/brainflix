@@ -1,6 +1,5 @@
 @use '../../styles/partials/index' as *;
 .comments {
-  margin-top: 2rem;
   @include d-flex-column;
   gap: 0.5rem;
 
@@ -56,6 +55,7 @@
     padding: 0.75rem;
     outline: none;
     resize: none;
+    color: $text-primary;
     @include tablet {
       max-height: 2.5rem;
       overflow: hidden;
