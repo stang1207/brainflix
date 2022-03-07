@@ -1,8 +1,16 @@
 import { Component } from 'react';
-import relativeDate from 'relative-date-test';
+import { mdy } from '../../utils/date';
 import LikeIcon from '../../assets/icons/likes.svg';
 import ViewIcon from '../../assets/icons/views.svg';
 import './VideoDescription.scss';
+
+/**
+ * Video Description component
+ * @prop   {object} video  - An object that contains all the information about the current active video, including title, image, description, channel, likes...
+ * @callback ReferenceStateSetter - A function that the change the state of showText and allows more text to be displayed when clicking the show btn
+ * @param {ReferenceState} showText - A boolean that determined if the text length of the video description should be reduced and hide some of it
+ * @return  {HTMLElement}  - An li element with image, video title and channel details...
+ */
 
 export default class VideoDescription extends Component {
   state = {
@@ -30,7 +38,7 @@ export default class VideoDescription extends Component {
             <span>{this.props.currentVideo.views}</span>
           </li>
           <li className="description__date">
-            {relativeDate.mdy(this.props.currentVideo.timestamp)}
+            {mdy(this.props.currentVideo.timestamp)}
           </li>
           <li className="description__likes">
             <img

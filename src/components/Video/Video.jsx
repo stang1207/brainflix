@@ -1,6 +1,12 @@
 import './Video.scss';
 import { Link } from 'react-router-dom';
 
+/**
+ * Sidebar video component
+ * @prop   {object} video  - an object that includes a video id, title, channel, and image src
+ * @return  {HTMLElement}  - an li element with image, video title and channel details
+ */
+
 const Video = ({ video }) => {
   return (
     <li className="video">

@@ -2,84 +2,84 @@
 .comments {
   @include d-flex-column;
   gap: 0.5rem;
-
   &__number {
     @extend .heading-secondary;
-    margin: 0.5rem 0;
   }
-
   &__container {
     @include d-flex;
     @include justify-align-center;
     gap: 1rem;
-    padding: 0rem 1.5rem 1rem 0;
+    padding: 1rem 0;
     @include tablet {
       gap: 1.5rem;
       align-items: flex-end;
     }
+    @include desktop {
+      padding: 0rem 1.5rem 1rem 0;
+    }
   }
-
   &__avatar {
-    transform: translateY(-1.5rem);
+    transform: translateY(-1.6rem);
     @include tablet {
       transform: none;
     }
   }
-
   &__form {
-    flex: 1;
     @include d-flex;
     flex-wrap: wrap;
     align-items: flex-end;
+    flex: 1;
     gap: 1rem;
     @include tablet {
       flex-wrap: nowrap;
       gap: 1.5rem;
     }
   }
-
   &__input-group {
-    flex: 1;
     @include d-flex-column;
+    flex: 1;
     gap: 0.5rem;
   }
-
-  &__input {
-    min-width: 15rem;
-    min-height: 2.25rem;
-    font-family: inherit;
-    font-size: inherit;
-    border-radius: 0.3rem;
-    border: 1px solid $dim-brand-primary;
-    background-color: $dim-brand-secondary;
-    padding: 0.75rem;
-    outline: none;
-    resize: none;
-    color: $text-primary;
-    @include tablet {
-      max-height: 2.5rem;
-      overflow: hidden;
-    }
-
-    &--error {
-      border: 1px solid #d22d2d;
-    }
-
-    &--success {
-      border: 1px solid $color-brand-primary;
-    }
-  }
-
   &__label {
     @extend .label-text;
+    font-weight: 600;
     text-transform: uppercase;
     color: $text-secondary;
   }
-
+  &__input {
+    min-width: 15rem;
+    min-height: 2.25rem;
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
+    border-radius: 0.25rem;
+    background-color: $dim-brand-secondary;
+    padding: 0.75rem;
+    resize: none;
+    outline: 1px solid $dim-brand-primary;
+    color: rgba(0, 0, 0, 0.6);
+    overflow-y: hidden;
+    @include tablet {
+      max-height: 2.5rem;
+    }
+    &::placeholder {
+      color: rgba(0, 0, 0, 0.6);
+    }
+    &:focus {
+      outline: 1px solid $color-brand-primary;
+    }
+    &--error {
+      outline: 1px solid #d22d2d;
+    }
+  }
   &__btn {
+    @extend .label-text;
     flex-basis: 100%;
     @include tablet {
       flex-basis: auto;
     }
+  }
+  &__no-comment {
+    text-align: center;
   }
 }

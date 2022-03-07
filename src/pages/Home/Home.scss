@@ -3,7 +3,7 @@
 .content {
   @extend .container;
   @include d-flex-column;
-  @include tablet {
+  @include desktop {
     flex-direction: row;
   }
   &__left {

@@ -4,16 +4,16 @@
   @include d-flex;
   align-items: flex-start;
   border-top: 1px solid $dim-brand-primary;
-  padding: 1.5rem 0;
-
+  padding: 1rem 0;
   gap: 1rem;
   @include tablet {
+    padding: 1.5rem 0;
     gap: 1.5rem;
   }
 
   &:last-of-type {
     border-bottom: 1px solid $dim-brand-primary;
-    @include tablet {
+    @include desktop {
       border-bottom: none;
     }
   }
@@ -22,8 +22,8 @@
     flex: 1;
     @include d-flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
     gap: 0.5rem;
+    justify-content: flex-end;
     @include tablet {
       padding-right: 1.5rem;
     }
@@ -40,5 +40,20 @@
 
   &__text {
     flex-basis: 100%;
+  }
+
+  &__delete {
+    cursor: pointer;
+    padding: 0.5rem 1.5rem;
+    border: none;
+    border-radius: 0.25rem;
+    outline: none;
+    color: white;
+    transition: all 0.2s;
+    background: lightcoral;
+
+    &:hover {
+      background: rgb(229, 111, 111);
+    }
   }
 }

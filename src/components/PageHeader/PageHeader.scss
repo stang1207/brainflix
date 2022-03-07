@@ -60,15 +60,26 @@
   align-items: center;
   min-width: 15rem;
   border-radius: 0.3rem;
-  border: 1px solid $dim-brand-primary;
+  border: none;
   background: $dim-brand-secondary;
   font-size: 0.75rem;
   overflow: hidden;
+
+  outline: 1px solid $dim-brand-primary;
+  &--valid {
+    outline: 1px solid $color-brand-primary;
+  }
+
+  &--error {
+    outline: 1px solid #d22d2d;
+  }
 
   &__input {
     flex: 1;
     height: 2.25rem;
     padding: 0.75rem;
+    color: rgba(0, 0, 0, 0.6);
+
     @include tablet {
       height: 2.5rem;
       padding: 1rem;

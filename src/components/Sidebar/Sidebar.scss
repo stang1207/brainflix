@@ -4,17 +4,19 @@
   flex: 1;
   border-left: none;
   padding-bottom: 2rem;
-  @include tablet {
+  @include desktop {
     border-left: 1px solid $dim-brand-primary;
-    padding: 0 0 2rem 2rem;
+    padding: 0 0 2rem 1.5rem;
   }
-
   &__heading {
     @extend .heading-tertiary;
     margin: 1.5rem 0;
     text-transform: uppercase;
     color: $text-secondary;
     font-weight: 600;
+    @include desktop {
+      margin: 2rem 0;
+    }
   }
 
   &__video-list {

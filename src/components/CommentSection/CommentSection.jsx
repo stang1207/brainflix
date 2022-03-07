@@ -1,44 +1,37 @@
 import React, { Component } from 'react';
-
 import Avatar from '../Avatar/Avatar';
 import Button from '../Button/Button';
 import Comment from '../Comment/Comment';
-
-import './CommentSection.scss';
 import DefaultAvatar from '../../assets/images/Mohan-muruge.jpg';
 import CommentIcon from '../../assets/icons/add_comment.svg';
+import './CommentSection.scss';
 
 export default class CommentSection extends Component {
-  constructor(props) {
-    super(props);
-    this.inputRef = React.createRef();
-    this.state = {
-      commentInput: '',
-    };
-  }
+  state = {
+    commentInput: '',
+    commentInputError: false,
+  };
   formSubmitEvent = (e) => {
     e.preventDefault();
     if (!this.state.commentInput.trim()) {
-      this.setState({ commentInput: '' });
-      this.inputRef.current.classList.remove('comments__input--success');
-      return this.inputRef.current.classList.add('comments__input--error');
+      return this.setState({ commentInputError: true });
     }
+    //If the form has valid values in it, then submit the form and call the axio post method and append the new comment
+    this.props.addActiveVideoComment(
+      this.props.currentVideoID,
+      this.state.commentInput
+    );
     //Return to default state
     this.setState({ commentInput: '' });
-    this.inputRef.current.classList.remove('comments__input--success');
-    this.inputRef.current.classList.remove('comments__input--error');
   };
   handleInputChange = (e) => {
+    // Clear the previous error when user starts typing
+    if (this.state.commentInputError) {
+      this.setState({ commentInputError: false });
+    }
     this.setState({
       commentInput: e.target.value,
     });
-    if (e.target.value) {
-      e.target.classList.add('comments__input--success');
-    }
-    if (!e.target.value) {
-      e.target.classList.remove('comments__input--success');
-      e.target.classList.remove('comments__input--error');
-    }
   };
 
   render() {
@@ -60,12 +53,13 @@ export default class CommentSection extends Component {
               </label>
               <textarea
                 placeholder="Add a new comment"
-                className="comments__input"
-                id="comments__input"
+                className={`comments__input ${
+                  this.state.commentInputError ? 'comments__input--error' : ''
+                }`}
                 name="comment"
+                id="comments__input"
                 onChange={this.handleInputChange}
                 value={this.state.commentInput}
-                ref={this.inputRef}
               />
             </div>
             <Button
@@ -76,19 +70,30 @@ export default class CommentSection extends Component {
             ></Button>
           </form>
         </div>
-        <ul className="comments__list">
-          {this.props.currentVideoComments &&
-            this.props.currentVideoComments.map((comment, i) => {
-              return (
-                <Comment
-                  key={i}
-                  comment={comment.comment}
-                  name={comment.name}
-                  timestamp={comment.timestamp}
-                />
-              );
-            })}
-        </ul>
+        {this.props.currentVideoComments.length > 0 ? (
+          <ul className="comments__list">
+            {this.props.currentVideoComments &&
+              this.props.currentVideoComments.map((comment, i) => {
+                return (
+                  <Comment
+                    key={i}
+                    deleteActiveVideoComment={
+                      this.props.deleteActiveVideoComment
+                    }
+                    currentVideoID={this.props.currentVideoID}
+                    commentID={comment.id}
+                    comment={comment.comment}
+                    name={comment.name}
+                    timestamp={comment.timestamp}
+                  />
+                );
+              })}
+          </ul>
+        ) : (
+          <p className="comments__no-comment">
+            This video has no comments yet!
+          </p>
+        )}
       </section>
     );
   }

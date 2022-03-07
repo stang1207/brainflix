@@ -1,5 +1,11 @@
 import './MainVideo.scss';
 
+/**
+ * Main active video component
+ * @prop   {object} currentVideo  - An object that includes all the info about the current active video, such as title, description, image, likes...
+ * @return  {HTMLElement}  - An section that includes a video of the current active vide
+ */
+
 const MainVideo = ({ currentVideo }) => {
   return (
     <section className="main-video">

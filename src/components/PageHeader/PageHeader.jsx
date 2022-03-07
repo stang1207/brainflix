@@ -6,32 +6,32 @@ import SiteLogo from '../../assets/logos/BrainFlix-logo.svg';
 import DefaultAvatar from '../../assets/images/Mohan-muruge.jpg';
 import Upload from '../../assets/icons/upload.svg';
 import './PageHeader.scss';
+
 export default class PageHeader extends Component {
   state = {
-    input: '',
+    searchInput: '',
+    searchInputError: false,
   };
   formRef = React.createRef();
+
   formSubmitEvent = (e) => {
     e.preventDefault();
-    this.formRef.current.classList.remove('search__input--success');
-    if (!this.state.input.trim()) {
-      this.setState({ input: '' });
-      return e.target.classList.add('search__input--error');
+    //If form has no valid values in it
+    if (!this.state.searchInput.trim()) {
+      return this.setState({ searchInputError: true });
     }
-    this.setState({ input: '' });
-    this.formRef.current.classList.remove('search__input--success');
-    this.formRef.current.classList.remove('search__input--error');
+    //if form value passed validation
+    this.formRef.current.classList.remove('search--valid');
+    this.setState({ searchInput: '' });
   };
   formInputChange = (e) => {
-    this.setState({
-      input: e.target.value,
-    });
-    if (e.target.value)
-      this.formRef.current.classList.add('search__input--success');
-    if (!e.target.value) {
-      this.formRef.current.classList.remove('search__input--error');
-      this.formRef.current.classList.remove('search__input--success');
+    this.formRef.current.classList.add('search--valid');
+    if (this.state.searchInputError) {
+      this.setState({ searchInputError: false });
     }
+    this.setState({
+      searchInput: e.target.value,
+    });
   };
 
   render() {
@@ -43,7 +43,9 @@ export default class PageHeader extends Component {
           </Link>
           <div className="nav__right">
             <form
-              className="search"
+              className={`search ${
+                this.state.searchInputError ? 'search--error' : ''
+              }`}
               onSubmit={this.formSubmitEvent}
               ref={this.formRef}
             >
@@ -54,7 +56,14 @@ export default class PageHeader extends Component {
                 placeholder="Search"
                 name="search-input"
                 onChange={(e) => this.formInputChange(e)}
-                value={this.state.input}
+                onFocus={() =>
+                  this.formRef.current.classList.add('search--valid')
+                }
+                onBlur={() => {
+                  this.formRef.current.classList.remove('search--valid');
+                  this.formRef.current.classList.remove('search--error');
+                }}
+                value={this.state.searchInput}
               />
             </form>
             <Button
