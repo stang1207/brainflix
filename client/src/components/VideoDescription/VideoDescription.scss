@@ -54,12 +54,23 @@
       height: 1em;
     }
   }
+
   &__channel {
     color: $text-primary;
     @extend .heading-tertiary;
     font-weight: 600;
     @include tablet {
       order: -1;
+    }
+  }
+
+  &__likes {
+    cursor: pointer;
+    &--liked {
+      & > * {
+        filter: invert(13%) sepia(94%) saturate(7466%) hue-rotate(0deg)
+          brightness(94%) contrast(115%);
+      }
     }
   }
   &__date {

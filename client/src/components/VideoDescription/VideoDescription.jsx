@@ -15,10 +15,51 @@ import './VideoDescription.scss';
 export default class VideoDescription extends Component {
   state = {
     showText: false,
+    isVideoLiked: false,
+    likedVideoListID: [],
   };
   changeShowText(prevState) {
     this.setState({ showText: !prevState });
   }
+  likeButtonClicked = async (id) => {
+    if (!this.state.isVideoLiked) {
+      //Update the json file
+      await this.props.addLikeOnCurrentVideo(id);
+
+      //Previous Items
+      const previousIDs =
+        JSON.parse(localStorage.getItem('likedVideoIds')) || [];
+      //Put the id into localstorage
+      localStorage.setItem(
+        'likedVideoIds',
+        JSON.stringify([...previousIDs, id])
+      );
+      //Set state to true and change styles
+      this.setState({
+        isVideoLiked: true,
+      });
+    }
+  };
+  componentDidMount = () => {
+    //Fetch liked videolist id
+    const likedVideos = JSON.parse(localStorage.getItem('likedVideoIds')) || [];
+    const foundLikedVideo = likedVideos.find(
+      (id) => id === this.props.currentVideo.id
+    );
+    //If current video id is included in the liked video id list, change the state and styles
+    if (foundLikedVideo)
+      this.setState({ likedVideoListID: likedVideos, isVideoLiked: true });
+  };
+  componentDidUpdate = (prevProps) => {
+    if (prevProps.currentVideo.id !== this.props.currentVideo.id) {
+      //If the url has changed and current video id is included in the liked list and update state and styles
+      const foundLikedVideo = this.state.likedVideoListID.find(
+        (id) => id === this.props.currentVideo.id
+      );
+      if (foundLikedVideo) this.setState({ isVideoLiked: true });
+    }
+  };
+
   render() {
     const trimmedText =
       this.props.currentVideo.description.slice(0, 200) + '...';
@@ -40,7 +81,12 @@ export default class VideoDescription extends Component {
           <li className="description__date">
             {mdy(this.props.currentVideo.timestamp)}
           </li>
-          <li className="description__likes">
+          <li
+            className={`description__likes ${
+              this.state.isVideoLiked ? 'description__likes--liked' : ''
+            }`}
+            onClick={() => this.likeButtonClicked(this.props.currentVideo.id)}
+          >
             <img
               src={LikeIcon}
               className="description__icon"
@@ -58,7 +104,7 @@ export default class VideoDescription extends Component {
           onClick={() => this.changeShowText(this.state.showText)}
           className="description__show-btn"
         >
-          {this.state.showText ? 'Show less' : 'Show more'}
+          {this.state.showText ? 'Show less' : 'Show more'}{' '}
         </span>
       </section>
     );

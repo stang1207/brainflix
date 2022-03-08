@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import { addVideo } from '../../hooks/requests';
 import Button from '../../components/Button/Button';
 import PublishImage from '../../assets/icons/publish.svg';
 import UploadPreview from '../../assets/images/upload-preview.jpg';
@@ -11,7 +12,10 @@ export default class Upload extends Component {
     videoTitleInput: '',
     videoDescriptionInput: '',
     errors: [],
-    redirect: false,
+    redirectObj: {
+      shouldRedirect: false,
+      to: '/',
+    },
   };
   onInputChange = (e) => {
     //If the input has an error class, then remove it
@@ -25,7 +29,7 @@ export default class Upload extends Component {
       [e.target.name]: e.target.value,
     });
   };
-  onFormSubmit = (e) => {
+  onFormSubmit = async (e) => {
     e.preventDefault();
     const { videoTitleInput, videoDescriptionInput } = this.state;
     const newErrorList = [];
@@ -42,8 +46,16 @@ export default class Upload extends Component {
       });
     }
     //If form is filled, then submit it and redirect to the homepage
-    alert('Form has been submitted');
-    this.setState({ redirect: true });
+    const { data } = await addVideo(
+      this.state.videoTitleInput,
+      this.state.videoDescriptionInput
+    );
+    this.setState({
+      redirectObj: {
+        shouldRedirect: true,
+        to: data.id,
+      },
+    });
   };
   render() {
     return (
@@ -52,7 +64,9 @@ export default class Upload extends Component {
           <title>Brainflix - Upload</title>
         </Helmet>
         {/* if this form is subbmitted redirect to homepage */}
-        {this.state.redirect && <Redirect to="/" />}
+        {this.state.redirectObj.shouldRedirect && (
+          <Redirect to={`/videos/${this.state.redirectObj.to}`} />
+        )}
         <main className="upload">
           <h1 className="upload__heading">Upload Video</h1>
           <form
