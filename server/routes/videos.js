@@ -1,25 +1,32 @@
 const express = require('express');
 const router = express.Router();
 const uuid = require('uuid');
-let videoList = require('../data/videos.json');
+const fsPromises = require('fs').promises;
+const path = require('path');
+const jsonPath = path.join(__dirname, '../data/videos.json');
 
 //Get - retrieve video details
-router.get('/:videoID', (req, res, next) => {
+router.get('/:videoID', async (req, res, next) => {
   const { videoID } = req.params;
-  const targetVideo = videoList.find((video) => video.id === videoID);
-  if (!targetVideo)
-    next({
-      errorMessage: `This video id doesn't exist.`,
+  const data = await fsPromises.readFile(jsonPath);
+  const videoList = JSON.parse(data);
+  const foundVideo = videoList.find((video) => video.id === videoID);
+  if (!foundVideo) {
+    return next({
+      errorMessage: `Can't find the video.`,
       statusCode: 404,
     });
-  return res.json({ data: targetVideo });
+  }
+  const newViewNumber = parseInt(foundVideo.views.replace(/,/gi, ''));
+  foundVideo.views = (newViewNumber + 1).toLocaleString('en-US');
+  await fsPromises.writeFile(jsonPath, JSON.stringify(videoList));
+  return res.status(200).json({ data: foundVideo });
 });
 
 //Get - retrieve a list of videos
-router.get('/', (req, res, next) => {
-  console.log(process.env.PORT);
-
-  const filteredVideos = videoList.map((video) => {
+router.get('/', async (req, res, next) => {
+  const data = await fsPromises.readFile(jsonPath);
+  const filteredVideos = JSON.parse(data).map((video) => {
     return {
       id: video.id,
       title: video.title,
@@ -27,24 +34,28 @@ router.get('/', (req, res, next) => {
       image: video.image,
     };
   });
-  res.json({ data: filteredVideos });
+  return res.status(200).json({ data: filteredVideos });
 });
 
 //Post - add a new comment of the active video
-router.post('/:videoID/comments', (req, res, next) => {
+router.post('/:videoID/comments', async (req, res, next) => {
   const { videoID } = req.params;
-  const targetVideo = videoList.find((video) => video.id === videoID);
-  if (!targetVideo)
-    next({
-      errorMessage: `This video id doesn't exist.`,
+  const { comment } = req.body;
+  const data = await fsPromises.readFile(jsonPath);
+  const videoList = JSON.parse(data);
+  const foundVideo = videoList.find((video) => video.id === videoID);
+  if (!foundVideo) {
+    return next({
+      errorMessage: `Can't find the video.`,
       statusCode: 404,
     });
-  const { comment } = req.body;
-  if (!comment)
-    next({
-      errorMessage: 'Please fill out the comment field.',
+  }
+  if (!comment) {
+    return next({
+      errorMessage: 'Comment field is not filled',
       statusCode: 400,
     });
+  }
   const newComment = {
     id: uuid.v4(),
     name: 'BrainStation Test',
@@ -52,24 +63,29 @@ router.post('/:videoID/comments', (req, res, next) => {
     likes: (0).toLocaleString('en-US'),
     timestamp: new Date().getTime(),
   };
-  targetVideo.comments = [...targetVideo.comments, newComment];
-  return res.json({ data: newComment });
+  foundVideo.comments.push(newComment);
+  await fsPromises.writeFile(jsonPath, JSON.stringify(videoList));
+  return res.status(200).json({
+    data: newComment,
+    message: 'Comment has been added to the video.',
+  });
 });
 
 //Post - add a new video to the videolist
-router.post('/', (req, res, next) => {
+router.post('/', async (req, res, next) => {
+  const data = await fsPromises.readFile(jsonPath);
+  const videoList = JSON.parse(data);
   const { videoTitle, videoDescription } = req.body;
   if (!videoTitle || !videoDescription) {
-    next({
-      errorMessage:
-        'Failed to add the new video, please make sure that all the required fields are filled',
+    return next({
+      errorMessage: 'The required fields are not filled',
       statusCode: 400,
     });
   }
   const newVideo = {
     id: uuid.v4(),
     title: videoTitle,
-    channel: 'Test Channel',
+    channel: 'BrainStation Test',
     image: 'http://localhost:8000/images/default-video.jpg',
     description: videoDescription,
     views: (0).toLocaleString('en-US'),
@@ -79,53 +95,67 @@ router.post('/', (req, res, next) => {
     timestamp: new Date().getTime(),
     comments: [],
   };
-  const newVideoList = [...videoList, newVideo];
-  videoList = newVideoList;
-  return res.json({ data: newVideo, message: 'new video has been added!' });
+  videoList.push(newVideo);
+  await fsPromises.writeFile(jsonPath, JSON.stringify(videoList));
+  return res
+    .status(200)
+    .json({ data: newVideo, message: 'Your video has been added.' });
 });
 
 //Delete - delete a comment of the active video
-router.delete('/:videoID/comments/:commentID', (req, res, next) => {
+router.delete('/:videoID/comments/:commentID', async (req, res, next) => {
   const { videoID, commentID } = req.params;
-  const targetVideo = videoList.find((video) => video.id === videoID);
-  if (!targetVideo)
-    next({
-      errorMessage: `This video id doesn't exist.`,
+  const data = await fsPromises.readFile(jsonPath);
+  const videoList = JSON.parse(data);
+  const foundVideo = videoList.find((video) => video.id === videoID);
+  if (!foundVideo) {
+    return next({
+      errorMessage: `Can't find the video.`,
       statusCode: 404,
     });
-  const targetComment = targetVideo.comments.find(
+  }
+  const foundComment = foundVideo.comments.find(
     (comment) => comment.id === commentID
   );
-  if (!targetComment)
-    next({
-      errorMessage: `This comment id doesn't exist.`,
+  if (!foundComment) {
+    return next({
+      errorMessage: `Can't find the comment.`,
       statusCode: 404,
     });
-
-  const newCommentList = targetVideo.comments.filter((video) => {
-    return video.id !== commentID;
+  }
+  foundVideo.comments = foundVideo.comments.filter(
+    (comment) => comment.id !== commentID
+  );
+  await fsPromises.writeFile(jsonPath, JSON.stringify(videoList));
+  return res.status(200).json({
+    data: foundVideo,
+    message: 'The comment has been removed!',
   });
-  targetVideo.comments = newCommentList;
-  return res.json({ Message: 'The selected comment has been deleted!' });
 });
 
 //Put - add a like to the current video
-router.put('/:videoID', (req, res, next) => {
+router.put('/:videoID', async (req, res, next) => {
   const { videoID } = req.params;
+  const data = await fsPromises.readFile(jsonPath);
+  const videoList = JSON.parse(data);
   const foundVideo = videoList.find((video) => video.id === videoID);
-  if (!foundVideo)
+  if (!foundVideo) {
     return next({
-      errorMessage: `This video id doesn't exist.`,
+      errorMessage: `Can't find the video.`,
       statusCode: 404,
     });
+  }
   const newLikeNumber = parseInt(foundVideo.likes.replace(/,/gi, ''));
   foundVideo.likes = (newLikeNumber + 1).toLocaleString('en-US');
-  return res.json({ data: foundVideo, message: 'Like has been increased' });
+  await fsPromises.writeFile(jsonPath, JSON.stringify(videoList));
+  return res.status(200).json({ data: foundVideo });
 });
 
 router.use((err, req, res, next) => {
   const { errorMessage, statusCode } = err;
-  return res.json({ Message: `Error ${statusCode} - ${errorMessage}` });
+  return res
+    .status(statusCode)
+    .json({ message: `Error ${statusCode} - ${errorMessage}` });
 });
 
 module.exports = router;
