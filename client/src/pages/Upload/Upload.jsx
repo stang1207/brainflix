@@ -46,7 +46,7 @@ export default class Upload extends Component {
         errors: newErrorList,
       });
     }
-    const [activeVideo, activeVideoError] = await catchAsyncError(
+    const [activeVideoError, activeVideo] = await catchAsyncError(
       addVideo(this.state.videoTitleInput, this.state.videoDescriptionInput)
     );
     if (activeVideoError) return Error(activeVideoError);

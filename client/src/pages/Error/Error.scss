@@ -1,0 +1,42 @@
+@use '../../styles/partials/index' as *;
+
+.error {
+  padding: 0 2rem;
+  min-height: 65vh;
+  @include d-flex-column;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  @include tablet {
+    flex-direction: row;
+  }
+
+  &__img {
+    max-height: 12rem;
+    @include tablet {
+      max-height: 15rem;
+    }
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+  &__code {
+    display: block;
+    font-weight: 700;
+    font-size: 2.5rem;
+    color: lightcoral;
+  }
+
+  &__message {
+    color: $text-primary;
+    @include d-flex-column;
+    align-items: center;
+    gap: 2rem;
+    font-weight: 600;
+    font-size: 1.5rem;
+  }
+}

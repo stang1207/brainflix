@@ -63,7 +63,6 @@ export const getRelativeDate = (
           }
         }
       }
-      break;
   }
   const result = Math.floor(diffInSeconds / temp.diff);
   return `${result} ${result === 1 ? temp.unit.slice(0, -1) : temp.unit} ago`;
