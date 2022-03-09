@@ -1,7 +1,8 @@
 import { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { addVideo } from '../../hooks/requests';
+import catchAsyncError from '../../utils/catchAsyncError';
+import { addVideo } from '../../hooks/videoHooks';
 import Button from '../../components/Button/Button';
 import PublishImage from '../../assets/icons/publish.svg';
 import UploadPreview from '../../assets/images/upload-preview.jpg';
@@ -45,15 +46,14 @@ export default class Upload extends Component {
         errors: newErrorList,
       });
     }
-    //If form is filled, then submit it and redirect to the homepage
-    const { data } = await addVideo(
-      this.state.videoTitleInput,
-      this.state.videoDescriptionInput
+    const [activeVideo, activeVideoError] = await catchAsyncError(
+      addVideo(this.state.videoTitleInput, this.state.videoDescriptionInput)
     );
+    if (activeVideoError) return Error(activeVideoError);
     this.setState({
       redirectObj: {
         shouldRedirect: true,
-        to: data.id,
+        to: activeVideo.data.id,
       },
     });
   };
@@ -67,6 +67,7 @@ export default class Upload extends Component {
         {this.state.redirectObj.shouldRedirect && (
           <Redirect to={`/videos/${this.state.redirectObj.to}`} />
         )}
+
         <main className="upload">
           <h1 className="upload__heading">Upload Video</h1>
           <form

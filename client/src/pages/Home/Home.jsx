@@ -9,10 +9,11 @@ import './Home.scss';
 import {
   getVideoList,
   getVideo,
-  addVideoComment,
-  deleteVideoComment,
+  addComment,
+  deleteComment,
   addLike,
-} from '../../hooks/requests';
+} from '../../hooks/videoHooks';
+import catchAsyncError from '../../utils/catchAsyncError';
 
 export default class Home extends Component {
   state = {
@@ -21,74 +22,79 @@ export default class Home extends Component {
     isLoading: true,
   };
   componentDidMount() {
-    this.fetchDefaultVideos();
+    this.initialFetch();
   }
   componentDidUpdate(prevProps) {
-    this.fetchNewActiveVideo(prevProps);
+    this.fetchNewVideoRoute(prevProps);
   }
-  fetchDefaultVideos = async () => {
-    try {
-      //Fetch sidebar video list when app starts running
-      const { data } = await getVideoList();
-      // If there is an id already in the url, fetch that as the active video
-      if (this.props.match.params.videoId) {
-        const { data: currentVideoData } = await getVideo(
-          this.props.match.params.videoId
-        );
-        return this.setState({
-          videos: data,
-          currentVideo: currentVideoData,
-          isLoading: false,
-        });
-      }
 
-      //Otherwise set the first video of the sidebar videos as default active video
-      const { data: currentVideoData } = await getVideo(data[0].id);
-      this.setState({
-        videos: data,
-        currentVideo: currentVideoData,
+  initialFetch = async () => {
+    const [videoList, videoListError] = await catchAsyncError(getVideoList());
+    if (videoListError) return new Error(videoListError);
+    if (this.props.match.params.videoId) {
+      const [activeVideo, activeVideoError] = await catchAsyncError(
+        getVideo(this.props.match.params.videoId)
+      );
+      if (activeVideoError) return new Error(activeVideoError);
+      return this.setState({
+        videos: videoList.data,
+        currentVideo: activeVideo.data,
         isLoading: false,
       });
-    } catch (err) {
-      return new Error(err.message);
+    }
+    const [activeVideo, activeVideoError] = await catchAsyncError(
+      getVideo(videoList.data[0].id)
+    );
+
+    if (activeVideoError) return new Error(activeVideoError);
+    return this.setState({
+      videos: videoList.data,
+      currentVideo: activeVideo.data,
+      isLoading: false,
+    });
+  };
+
+  fetchNewVideoRoute = async (prevProps) => {
+    if (this.props.match.params.videoId !== prevProps.match.params.videoId) {
+      this.setState({ isLoading: true });
+      const videoID = this.props.match.params.videoId
+        ? this.props.match.params.videoId
+        : this.state.videos[0].id;
+      const [activeVideo, activeVideoError] = await catchAsyncError(
+        getVideo(videoID)
+      );
+      if (activeVideoError) return Error(activeVideoError);
+      this.setState({
+        currentVideo: activeVideo.data,
+        isLoading: false,
+      });
     }
   };
-  fetchNewActiveVideo = async (prevProps) => {
-    try {
-      //If the current url and prev url are not the same, use the new url and fetch the new active video
-      if (this.props.match.params.videoId !== prevProps.match.params.videoId) {
-        this.setState({ isLoading: true });
-        const { data } = await getVideo(
-          this.props.match.params.videoId
-            ? this.props.match.params.videoId
-            : this.state.videos[0].id
-        );
-        this.setState({
-          currentVideo: data,
-          isLoading: false,
-        });
-      }
-    } catch (err) {
-      return new Error(err.message);
-    }
+
+  addActiveVideoComment = async (videoID, comment) => {
+    const [activeVideo, activeVideoError] = await catchAsyncError(
+      addComment(videoID, comment)
+    );
+    if (activeVideoError) return Error(activeVideoError);
+    this.setState({
+      currentVideo: activeVideo.data.data,
+    });
   };
-  addActiveVideoComment = async (id, comment) => {
-    // Add a new comment for current active video
-    await addVideoComment(id, comment);
-    const { data } = await getVideo(id);
-    this.setState({ currentVideo: data });
-  };
+
   deleteActiveVideoComment = async (videoID, commentID) => {
-    //delete current selected comment
-    await deleteVideoComment(videoID, commentID);
-    const { data } = await getVideo(videoID);
-    this.setState({ currentVideo: data });
+    const [activeVideo, activeVideoError] = await catchAsyncError(
+      deleteComment(videoID, commentID)
+    );
+    if (activeVideoError) return Error(activeVideoError);
+    this.setState({ currentVideo: activeVideo.data.data });
   };
 
   addLikeOnCurrentVideo = async (videoID) => {
-    await addLike(videoID);
-    const { data } = await getVideo(videoID);
-    this.setState({ currentVideo: data });
+    const [activeVideo, activeVideoError] = await catchAsyncError(
+      addLike(videoID)
+    );
+    if (activeVideoError) return Error(activeVideoError);
+    this.setState({ currentVideo: activeVideo.data });
   };
 
   render() {

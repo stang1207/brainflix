@@ -62,7 +62,10 @@ export default class VideoDescription extends Component {
 
   render() {
     const trimmedText =
-      this.props.currentVideo.description.slice(0, 200) + '...';
+      this.props.currentVideo.description.length <= 200
+        ? this.props.currentVideo.description
+        : this.props.currentVideo.description.slice(0, 200) + '...';
+
     return (
       <section className="description">
         <h2 className="description__title">{this.props.currentVideo.title}</h2>
@@ -100,12 +103,16 @@ export default class VideoDescription extends Component {
             ? this.props.currentVideo.description
             : trimmedText}
         </p>
-        <span
-          onClick={() => this.changeShowText(this.state.showText)}
-          className="description__show-btn"
-        >
-          {this.state.showText ? 'Show less' : 'Show more'}{' '}
-        </span>
+        {this.props.currentVideo.description.length <= 200 ? (
+          ''
+        ) : (
+          <span
+            onClick={() => this.changeShowText(this.state.showText)}
+            className="description__show-btn"
+          >
+            {this.state.showText ? 'Show less' : 'Show more'}{' '}
+          </span>
+        )}
       </section>
     );
   }

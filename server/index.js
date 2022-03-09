@@ -1,8 +1,8 @@
 const express = require('express');
-const path = require('path');
-const logger = require('morgan');
-const cors = require('cors');
 const app = express();
+const path = require('path');
+const cors = require('cors');
+const logger = require('morgan');
 const videosRouter = require('./routes/videos');
 require('dotenv').config();
 const PORT = process.env.PORT || 9000;

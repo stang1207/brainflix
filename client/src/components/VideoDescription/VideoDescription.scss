@@ -2,24 +2,25 @@
 
 .description {
   @include d-flex-column;
-  margin: 1rem 0;
   gap: 1rem;
+  margin-top: 1rem;
   @include tablet {
     gap: 0.5rem;
+    margin-top: 1.5rem;
   }
 
   &__title {
     width: 90%;
     @extend .heading-primary;
     overflow-wrap: break-word;
-    @include tablet {
-      margin-top: 0.5rem;
-    }
   }
 
   &__details {
     list-style: none;
     @include d-flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
     row-gap: 0.5rem;
 
@@ -66,7 +67,7 @@
 
   &__likes {
     cursor: pointer;
-    transition: all 0.2s;
+    transition: filter 0.2s;
     &:hover {
       filter: invert(13%) sepia(94%) saturate(7466%) hue-rotate(0deg)
         brightness(94%) contrast(115%);

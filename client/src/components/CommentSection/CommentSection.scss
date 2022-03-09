@@ -24,62 +24,12 @@
       transform: none;
     }
   }
-  &__form {
-    @include d-flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    flex: 1;
-    gap: 1rem;
-    @include tablet {
-      flex-wrap: nowrap;
-      gap: 1.5rem;
-    }
-  }
-  &__input-group {
-    @include d-flex-column;
-    flex: 1;
-    gap: 0.5rem;
-  }
-  &__label {
-    @extend .label-text;
-    font-weight: 600;
-    text-transform: uppercase;
-    color: $text-secondary;
-  }
-  &__input {
-    min-width: 15rem;
-    min-height: 2.25rem;
-    border: none;
-    font-family: inherit;
-    font-size: inherit;
-    border-radius: 0.25rem;
-    background-color: $dim-brand-secondary;
-    padding: 0.75rem;
-    resize: none;
-    outline: 1px solid $dim-brand-primary;
-    color: rgba(0, 0, 0, 0.6);
-    overflow-y: hidden;
-    @include tablet {
-      max-height: 2.5rem;
-    }
-    &::placeholder {
-      color: rgba(0, 0, 0, 0.6);
-    }
-    &:focus {
-      outline: 1px solid $color-brand-primary;
-    }
-    &--error {
-      outline: 1px solid #d22d2d;
-    }
-  }
-  &__btn {
-    @extend .label-text;
-    flex-basis: 100%;
-    @include tablet {
-      flex-basis: auto;
-    }
-  }
   &__no-comment {
     text-align: center;
+    border-bottom: 1px solid $dim-brand-primary;
+    padding-bottom: 1rem;
+    @include desktop {
+      border-bottom: none;
+    }
   }
 }

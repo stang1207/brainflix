@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const uuid = require('uuid');
-const fsPromises = require('fs').promises;
+const fsPromises = require('fs/promises');
 const path = require('path');
 const jsonPath = path.join(__dirname, '../data/videos.json');
 
@@ -17,16 +17,14 @@ router.get('/:videoID', async (req, res, next) => {
       statusCode: 404,
     });
   }
-  const newViewNumber = parseInt(foundVideo.views.replace(/,/gi, ''));
-  foundVideo.views = (newViewNumber + 1).toLocaleString('en-US');
-  await fsPromises.writeFile(jsonPath, JSON.stringify(videoList));
   return res.status(200).json({ data: foundVideo });
 });
 
 //Get - retrieve a list of videos
 router.get('/', async (req, res, next) => {
-  const data = await fsPromises.readFile(jsonPath);
-  const filteredVideos = JSON.parse(data).map((video) => {
+  let data = await fsPromises.readFile(jsonPath);
+  const videoList = JSON.parse(data);
+  const filteredVideos = videoList.map((video) => {
     return {
       id: video.id,
       title: video.title,
@@ -34,7 +32,7 @@ router.get('/', async (req, res, next) => {
       image: video.image,
     };
   });
-  return res.status(200).json({ data: filteredVideos });
+  return res.json({ data: filteredVideos });
 });
 
 //Post - add a new comment of the active video
@@ -66,7 +64,7 @@ router.post('/:videoID/comments', async (req, res, next) => {
   foundVideo.comments.push(newComment);
   await fsPromises.writeFile(jsonPath, JSON.stringify(videoList));
   return res.status(200).json({
-    data: newComment,
+    data: foundVideo,
     message: 'Comment has been added to the video.',
   });
 });
@@ -107,6 +105,7 @@ router.delete('/:videoID/comments/:commentID', async (req, res, next) => {
   const { videoID, commentID } = req.params;
   const data = await fsPromises.readFile(jsonPath);
   const videoList = JSON.parse(data);
+
   const foundVideo = videoList.find((video) => video.id === videoID);
   if (!foundVideo) {
     return next({
