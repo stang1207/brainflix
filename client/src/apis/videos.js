@@ -13,16 +13,17 @@ const getVideoList = async () => {
 };
 
 //Add a new video
-const addVideo = async (videoTitle, videoDescription) => {
+const addVideo = async (videoTitle, videoDescription, videoImage) => {
   const { data } = await axios.post('/videos', {
     videoTitle,
     videoDescription,
+    videoImage,
   });
   return data;
 };
 
 // Add a like on the current active video
-const addLike = async (videoID) => {
+const addLike = async (videoID, shouldIncrease) => {
   const { data } = await axios.put(`/videos/${videoID}`);
   return data;
 };

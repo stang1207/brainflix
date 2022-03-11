@@ -22,13 +22,17 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2rem;
+    gap: 1.5rem;
   }
   &__code {
     display: block;
     font-weight: 700;
-    font-size: 2.5rem;
     color: lightcoral;
+
+    font-size: 2rem;
+    @include tablet {
+      font-size: 2.5rem;
+    }
   }
 
   &__message {
@@ -37,21 +41,24 @@
     align-items: center;
     gap: 2rem;
     font-weight: 600;
-    font-size: 1.5rem;
+    font-size: 1rem;
+    @include tablet {
+      font-size: 1.3rem;
+    }
   }
 
   &__redirect {
-    display: inline-block;
-    text-decoration: none;
-    @extend .label-text;
-    color: white;
-    padding: 1rem 2rem;
     background-color: $color-brand-primary;
     border-radius: 0.3rem;
     box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3);
     transition: all 0.2s;
+    padding: 0.8rem 1rem;
+    @include tablet {
+      padding: 1rem 2rem;
+    }
 
     &:hover {
+      background-color: $color-brand-primary;
       transform: translateY(-0.25rem);
       box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.3);
     }

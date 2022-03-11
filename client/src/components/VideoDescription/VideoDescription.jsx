@@ -25,7 +25,6 @@ export default class VideoDescription extends Component {
     if (!this.state.isVideoLiked) {
       //Update the json file
       await this.props.addLikeOnCurrentVideo(id);
-
       //Previous Items
       const previousIDs =
         JSON.parse(localStorage.getItem('likedVideoIds')) || [];
@@ -68,7 +67,7 @@ export default class VideoDescription extends Component {
 
     return (
       <section className="description">
-        <h2 className="description__title">{this.props.currentVideo.title}</h2>
+        <h1 className="description__title">{this.props.currentVideo.title}</h1>
         <ul className="description__details">
           <li className="description__channel">
             By {this.props.currentVideo.channel}
@@ -79,7 +78,7 @@ export default class VideoDescription extends Component {
               className="description__icon"
               alt="views icon"
             ></img>
-            <span>{this.props.currentVideo.views}</span>
+            <span>{this.props.currentVideo.views.toLocaleString('en-US')}</span>
           </li>
           <li className="description__date">
             {mdy(this.props.currentVideo.timestamp)}
@@ -95,7 +94,7 @@ export default class VideoDescription extends Component {
               className="description__icon"
               alt="likes icon"
             ></img>
-            <span>{this.props.currentVideo.likes}</span>
+            <span>{this.props.currentVideo.likes.toLocaleString('en-US')}</span>
           </li>
         </ul>
         <p className="description__text">

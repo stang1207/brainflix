@@ -13,10 +13,10 @@ import { Link } from 'react-router-dom';
  * @return  {HTMLElement}  - An button or a link that takes you to another url
  */
 
-const Button = ({ img, imgAlt, className, isLink, text, to, form }) => {
+const Button = ({ img, imgAlt, className, isLink, text, to, alt, form }) => {
   if (isLink)
     return (
-      <Link to={to} className={`btn ${className}`}>
+      <Link to={to} className={`btn ${className}`} alt={alt}>
         {img && <img src={img} alt={imgAlt} className={'btn__img'} />}
         {text && <span className={'btn__text'}>{text}</span>}
       </Link>

@@ -1,37 +1,27 @@
 const uuid = require('uuid');
-const fs = require('fs/promises');
 const { asyncWrapper } = require('../utils/asyncErrorCatcher');
-const path = require('path');
-const jsonFileLocation = path.join(__dirname, '../data/videos.json');
-
-//Read and parse the json file
-const readFile = asyncWrapper(async () => {
-  const data = await fs.readFile(jsonFileLocation);
-  return JSON.parse(data);
-});
-
-//Write new videolist into json file
-const saveData = asyncWrapper(async (data) => {
-  await fs.writeFile(jsonFileLocation, JSON.stringify(data));
-});
+const { readFile, saveData } = require('../utils/modifyFile');
+const videoFilePath = require('path').join(__dirname, '../data/videos.json');
 
 //Get - retrieve a video
-const getVideo = async (req, res, next) => {
+const getVideo = asyncWrapper(async (req, res, next) => {
   const { videoID } = req.params;
-  const videoList = await readFile();
+  const videoList = await readFile(videoFilePath);
   const foundVideo = videoList.find((video) => video.id === videoID);
   if (!foundVideo) {
     return next({
-      errorMessage: `Can't find the video.`,
+      errorMessage: `This is not the page you're looking.`,
       statusCode: 404,
     });
   }
+  foundVideo.views += 1;
+  await saveData(videoFilePath, videoList);
   return res.status(200).json({ data: foundVideo });
-};
+});
 
 //Get - retrieve a list of videos
 const getVideoList = asyncWrapper(async (req, res, next) => {
-  const videoList = await readFile();
+  const videoList = await readFile(videoFilePath);
   const filteredVideos = videoList.map((video) => {
     return {
       id: video.id,
@@ -45,29 +35,32 @@ const getVideoList = asyncWrapper(async (req, res, next) => {
 
 //Post - add a new video
 const addNewVideo = asyncWrapper(async (req, res, next) => {
-  const videoList = await readFile();
-  const { videoTitle, videoDescription } = req.body;
+  const videoList = await readFile(videoFilePath);
+  const { videoTitle, videoDescription, videoImage } = req.body;
   if (!videoTitle || !videoDescription) {
     return next({
-      errorMessage: 'Please fill out the required fields',
-      statusCode: 400,
+      errorMessage:
+        'Forbidden error - Please fill out all the required fields.',
+      statusCode: 403,
     });
   }
   const newVideo = {
     id: uuid.v4(),
     title: videoTitle,
     channel: 'Test Channel',
-    image: 'http://localhost:8000/images/default-video.jpg',
+    image: videoImage
+      ? videoImage
+      : 'http://localhost:8000/images/default-video.jpg',
     description: videoDescription,
-    views: '0',
-    likes: '0',
+    views: 0,
+    likes: 0,
     duration: '3:30',
     video: 'https://project-2-api.herokuapp.com/stream?api_key=lab',
     timestamp: new Date().getTime(),
     comments: [],
   };
   videoList.push(newVideo);
-  await saveData(videoList);
+  await saveData(videoFilePath, videoList);
   return res
     .status(200)
     .json({ data: newVideo, message: 'Your video has been added.' });
@@ -76,11 +69,11 @@ const addNewVideo = asyncWrapper(async (req, res, next) => {
 //Post - add a new video comment
 const addVideoComment = asyncWrapper(async (req, res, next) => {
   const { videoID } = req.params;
-  const videoList = await readFile();
+  const videoList = await readFile(videoFilePath);
   const foundVideo = videoList.find((video) => video.id === videoID);
   if (!foundVideo) {
     return next({
-      errorMessage: `Can't find the video.`,
+      errorMessage: `Can't find the video that you're looking.`,
       statusCode: 404,
     });
   }
@@ -95,11 +88,11 @@ const addVideoComment = asyncWrapper(async (req, res, next) => {
     id: uuid.v4(),
     name: 'Default Name',
     comment: comment,
-    likes: (0).toLocaleString('en-US'),
+    likes: 0,
     timestamp: new Date().getTime(),
   };
   foundVideo.comments.push(newComment);
-  await saveData(videoList);
+  await saveData(videoFilePath, videoList);
   return res.status(200).json({
     data: foundVideo,
     message: 'Comment has been added to the video.',
@@ -109,7 +102,7 @@ const addVideoComment = asyncWrapper(async (req, res, next) => {
 //Delete - delete a video comment
 const deleteVideoComment = asyncWrapper(async (req, res, next) => {
   const { videoID, commentID } = req.params;
-  const videoList = await readFile();
+  const videoList = await readFile(videoFilePath);
   const foundVideo = videoList.find((video) => video.id === videoID);
   if (!foundVideo) {
     return next({
@@ -129,7 +122,7 @@ const deleteVideoComment = asyncWrapper(async (req, res, next) => {
   foundVideo.comments = foundVideo.comments.filter(
     (comment) => comment.id !== commentID
   );
-  await saveData(videoList);
+  await saveData(videoFilePath, videoList);
   return res.status(200).json({
     data: foundVideo,
     message: 'The comment has been removed!',
@@ -139,7 +132,7 @@ const deleteVideoComment = asyncWrapper(async (req, res, next) => {
 //Put - increase the like counter num
 const addVideoLike = asyncWrapper(async (req, res, next) => {
   const { videoID } = req.params;
-  const videoList = await readFile();
+  const videoList = await readFile(videoFilePath);
   const foundVideo = videoList.find((video) => video.id === videoID);
   if (!foundVideo) {
     return next({
@@ -147,9 +140,8 @@ const addVideoLike = asyncWrapper(async (req, res, next) => {
       statusCode: 404,
     });
   }
-  const newLikeNumber = parseInt(foundVideo.likes.replace(/,/gi, '')) + 1;
-  foundVideo.likes = newLikeNumber.toLocaleString('en-US');
-  await saveData(videoList);
+  foundVideo.likes += 1;
+  await saveData(videoFilePath, videoList);
   return res.status(200).json({ data: foundVideo });
 });
 

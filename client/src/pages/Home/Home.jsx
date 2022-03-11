@@ -12,7 +12,7 @@ import {
   addComment,
   deleteComment,
   addLike,
-} from '../../hooks/videoHooks';
+} from '../../apis/videos';
 import catchAsyncError from '../../utils/catchAsyncError';
 import './Home.scss';
 
@@ -24,9 +24,11 @@ export default class Home extends Component {
     hasError: false,
     error: null,
   };
+
   componentDidMount() {
     this.initialFetch();
   }
+
   componentDidUpdate(prevProps) {
     this.fetchNewVideoRoute(prevProps);
   }
@@ -35,6 +37,7 @@ export default class Home extends Component {
     const [videoListError, videoList] = await catchAsyncError(getVideoList());
     if (videoListError) return console.log(videoListError);
 
+    //If there is an id in the url,fetch that video
     if (this.props.match.params.videoId) {
       let [activeVideoError, activeVideo] = await catchAsyncError(
         getVideo(this.props.match.params.videoId)
@@ -47,7 +50,7 @@ export default class Home extends Component {
         error: activeVideoError ? activeVideoError : '',
       });
     }
-    //Fetch the first video of the array if the initial request has no id
+    //Else fetch the first video of the video array as default
     const [activeVideoError, activeVideo] = await catchAsyncError(
       getVideo(videoList.data[0].id)
     );
@@ -62,7 +65,8 @@ export default class Home extends Component {
 
   fetchNewVideoRoute = async (prevProps) => {
     if (this.props.match.params.videoId !== prevProps.match.params.videoId) {
-      this.setState({ isLoading: true, hasError: false, errorMessage: '' });
+      this.setState({ isLoading: true, hasError: false });
+      //Set either the video id in the url or the first video or the video array as default
       const videoID = this.props.match.params.videoId
         ? this.props.match.params.videoId
         : this.state.videos[0].id;
@@ -97,23 +101,33 @@ export default class Home extends Component {
   };
 
   addLikeOnCurrentVideo = async (videoID) => {
-    const [activeVideoError, activeVideo] = await catchAsyncError(
-      addLike(videoID)
-    );
-    if (activeVideoError) return console.error(activeVideoError);
-    this.setState({ currentVideo: activeVideo.data });
+    //Optimistic UI Updates
+    const prevStr = this.state.currentVideo.likes;
+    const updatedVideo = {
+      ...this.state.currentVideo,
+      likes: this.state.currentVideo.likes + 1,
+    };
+    this.setState({ currentVideo: updatedVideo });
+    //If there is an error, reinstate to previous video states
+    const [activeVideoError] = await catchAsyncError(addLike(videoID));
+    if (activeVideoError) {
+      return this.setState({
+        currentVideo: { ...this.state.currentVideo, likes: prevStr },
+      });
+    }
   };
 
   render() {
-    //If there is no data, then show the loading
+    //If there is no data, then show loading screen
     return this.state.isLoading ? (
       <PageLoader />
     ) : (
       <>
+        {/* If it is not loading and there is an error loading video show error page, then show the homepage*/}
         {!this.state.hasError ? (
           <main className="main">
             <Helmet>
-              <title>Brainflix -{this.state.currentVideo.title}</title>
+              <title>Brainflix - {this.state.currentVideo.title}</title>
             </Helmet>
             <MainVideo currentVideo={this.state.currentVideo} />
             <section className="content">

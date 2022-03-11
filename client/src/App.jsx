@@ -1,5 +1,4 @@
 import { Switch, Route } from 'react-router-dom';
-
 import PageHeader from './components/PageHeader/PageHeader';
 import Home from './pages/Home/Home';
 import Upload from './pages/Upload/Upload';
@@ -15,7 +14,12 @@ const App = () => {
         <Route path="/" exact component={Home} />
         <Route path="/upload" component={Upload} />
         <Route path="*">
-          <Error error={{ statusCode: 404, errorMessage: 'Page not found!' }} />
+          <Error
+            error={{
+              statusCode: 404,
+              errorMessage: `This is not the page you're looking for.`,
+            }}
+          />
         </Route>
       </Switch>
     </>

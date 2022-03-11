@@ -7,7 +7,11 @@
 
   &__wrapper {
     aspect-ratio: 16 / 9;
-    max-width: 60rem;
+    @extend .container;
+    padding: 0;
+    @include tablet {
+      padding: 0 2rem;
+    }
   }
 
   &__player {

@@ -2,10 +2,10 @@ import { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import catchAsyncError from '../../utils/catchAsyncError';
-import { addVideo } from '../../hooks/videoHooks';
+import UploadImage from '../../assets/images/default-upload.jpeg';
+import { addVideo } from '../../apis/videos';
 import Button from '../../components/Button/Button';
 import PublishImage from '../../assets/icons/publish.svg';
-import UploadPreview from '../../assets/images/upload-preview.jpg';
 import './Upload.scss';
 
 export default class Upload extends Component {
@@ -13,6 +13,7 @@ export default class Upload extends Component {
     videoTitleInput: '',
     videoDescriptionInput: '',
     errors: [],
+    imageFile: null,
     redirectObj: {
       shouldRedirect: false,
       to: '/',
@@ -30,6 +31,15 @@ export default class Upload extends Component {
       [e.target.name]: e.target.value,
     });
   };
+
+  onImageChange = (e) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      this.setState({ imageFile: e.target.result });
+    };
+    reader.readAsDataURL(e.target.files[0]);
+  };
+
   onFormSubmit = async (e) => {
     e.preventDefault();
     const { videoTitleInput, videoDescriptionInput } = this.state;
@@ -46,14 +56,19 @@ export default class Upload extends Component {
         errors: newErrorList,
       });
     }
-    const [activeVideoError, activeVideo] = await catchAsyncError(
-      addVideo(this.state.videoTitleInput, this.state.videoDescriptionInput)
+    //If the form data passed the validation, add it to the data file
+    const [newVideoError, newVideo] = await catchAsyncError(
+      addVideo(
+        this.state.videoTitleInput,
+        this.state.videoDescriptionInput,
+        this.state.imageFile
+      )
     );
-    if (activeVideoError) return Error(activeVideoError);
+    if (newVideoError) return newVideoError;
     this.setState({
       redirectObj: {
         shouldRedirect: true,
-        to: activeVideo.data.id,
+        to: newVideo.data.id,
       },
     });
   };
@@ -67,7 +82,6 @@ export default class Upload extends Component {
         {this.state.redirectObj.shouldRedirect && (
           <Redirect to={`/videos/${this.state.redirectObj.to}`} />
         )}
-
         <main className="upload">
           <h1 className="upload__heading">Upload Video</h1>
           <form
@@ -77,13 +91,25 @@ export default class Upload extends Component {
             ref={this.formRef}
           >
             <div className="upload__input-group upload__input-group--thumbnail">
-              <label htmlFor="inputThumbnail" className="upload__label">
-                Video Thumbnail
+              <label
+                htmlFor="inputThumbnail"
+                className="upload__label upload__label--thumbnail"
+              >
+                <span>Video Thumbnail</span>
+                <img
+                  src={
+                    this.state.imageFile ? this.state.imageFile : UploadImage
+                  }
+                  alt="Click me to upload thumbnail"
+                  className="upload__input--preview"
+                />
               </label>
-              <img
-                src={UploadPreview}
-                alt="Click me to upload video thumbnail"
+              <input
+                type="file"
+                name="upload__input--thumbnail"
+                id="inputThumbnail"
                 className="upload__input--thumbnail"
+                onChange={this.onImageChange}
               />
             </div>
             <section className="upload__details">
