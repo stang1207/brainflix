@@ -9,17 +9,19 @@ const logger = require('morgan');
 const videosRouter = require('./routes/videos');
 const PORT = process.env.PORT || 9000;
 
-app.use(logger('dev'));
+if (process.env.NODE_ENVIRONMENT === 'development') {
+  app.use(logger('dev'));
+}
+
 app.use(cors());
+
+//increase limit to allow sending image in base64 format
 app.use(express.json({ limit: '5mb' }));
 app.use(express.urlencoded({ extended: false, limit: '5mb' }));
-app.use((req, res, next) => {
-  res.header('Content-Type', 'application/json');
-  next();
-});
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+//Video route
 app.use('/videos', videosRouter);
 
 app.listen(PORT, () => {

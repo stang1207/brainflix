@@ -23,7 +23,7 @@ router.delete(
 //Put - add a like to the current video
 router.put('/:videoID', videoController.addVideoLike);
 
-//Error route
+//Error handling route
 router.use((err, req, res, next) => {
   const { errorMessage, statusCode } = err;
   return res.status(statusCode).json({ errorMessage, statusCode });

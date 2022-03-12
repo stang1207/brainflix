@@ -1,10 +1,10 @@
 import { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import Button from '../../components/Button/Button';
+import { addVideo } from '../../apis/videos';
 import catchAsyncError from '../../utils/catchAsyncError';
 import UploadImage from '../../assets/images/default-upload.jpeg';
-import { addVideo } from '../../apis/videos';
-import Button from '../../components/Button/Button';
 import PublishImage from '../../assets/icons/publish.svg';
 import './Upload.scss';
 
@@ -34,6 +34,7 @@ export default class Upload extends Component {
 
   onImageChange = (e) => {
     const reader = new FileReader();
+    //If there is change on the file input, set the state to that image
     reader.onload = (e) => {
       this.setState({ imageFile: e.target.result });
     };
@@ -44,7 +45,7 @@ export default class Upload extends Component {
     e.preventDefault();
     const { videoTitleInput, videoDescriptionInput } = this.state;
     const newErrorList = [];
-    //If input field is empty, add it to the errors array state, and use that state to manipulate the border color
+    //If one of the input fields is empty, add it to the errors array state, and use that state to manipulate the border color
     if (!videoTitleInput.trim()) {
       newErrorList.push('videoTitleInput');
     }
@@ -56,7 +57,7 @@ export default class Upload extends Component {
         errors: newErrorList,
       });
     }
-    //If the form data passed the validation, add it to the data file
+    //If the form data passed the validation, add it to the data file and redirect to that video page
     const [newVideoError, newVideo] = await catchAsyncError(
       addVideo(
         this.state.videoTitleInput,

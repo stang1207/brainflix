@@ -25,6 +25,7 @@ export default class PageHeader extends Component {
     this.setState({ searchInput: '' });
   };
   formInputChange = (e) => {
+    //Add the active class and styles, and also remove the error class
     this.formRef.current.classList.add('search--valid');
     if (this.state.searchInputError) {
       this.setState({ searchInputError: false });

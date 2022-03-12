@@ -3,6 +3,7 @@ import ErrorImage from '../../assets/images/error.png';
 import Button from '../../components/Button/Button';
 import { Helmet } from 'react-helmet-async';
 
+//Error page that accepts statusCode and errorMessage as props and display them
 const Error = ({ error }) => {
   const { statusCode, errorMessage } = error;
   return (

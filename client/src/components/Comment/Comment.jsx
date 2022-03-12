@@ -25,7 +25,8 @@ const Comment = (props) => {
     timestamp,
     imgURL = DefaultCommentAvatar,
   } = props;
-  //This is for fixing incorrect datetime attribute for the time element;
+
+  //This is for fixing incorrect datetime attribute for the time element on line 47-49;
   const time = new Date(timestamp);
   let formattedDateForAttribute =
     time.getFullYear() +

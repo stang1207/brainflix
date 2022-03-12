@@ -1,5 +1,5 @@
 {
-  "name": "brainflix",
+  "name": "brainflix-client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

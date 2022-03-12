@@ -23,7 +23,7 @@ const addVideo = async (videoTitle, videoDescription, videoImage) => {
 };
 
 // Add a like on the current active video
-const addLike = async (videoID, shouldIncrease) => {
+const addLike = async (videoID) => {
   const { data } = await axios.put(`/videos/${videoID}`);
   return data;
 };

@@ -37,7 +37,7 @@ export default class Home extends Component {
     const [videoListError, videoList] = await catchAsyncError(getVideoList());
     if (videoListError) return console.log(videoListError);
 
-    //If there is an id in the url,fetch that video
+    //If there is an id in the url,fetch that video and set the states
     if (this.props.match.params.videoId) {
       let [activeVideoError, activeVideo] = await catchAsyncError(
         getVideo(this.props.match.params.videoId)
@@ -54,6 +54,7 @@ export default class Home extends Component {
     const [activeVideoError, activeVideo] = await catchAsyncError(
       getVideo(videoList.data[0].id)
     );
+
     return this.setState({
       videos: videoList.data,
       currentVideo: activeVideo.data,
@@ -64,9 +65,10 @@ export default class Home extends Component {
   };
 
   fetchNewVideoRoute = async (prevProps) => {
+    //if url changed, fetch the new video with id of the current url
     if (this.props.match.params.videoId !== prevProps.match.params.videoId) {
       this.setState({ isLoading: true, hasError: false });
-      //Set either the video id in the url or the first video or the video array as default
+      //Set either the video id in the url or the first video or the video array
       const videoID = this.props.match.params.videoId
         ? this.props.match.params.videoId
         : this.state.videos[0].id;
@@ -101,7 +103,7 @@ export default class Home extends Component {
   };
 
   addLikeOnCurrentVideo = async (videoID) => {
-    //Optimistic UI Updates
+    //Optimistic ui update, update the states first, then do the ajax request
     const prevStr = this.state.currentVideo.likes;
     const updatedVideo = {
       ...this.state.currentVideo,
@@ -123,7 +125,7 @@ export default class Home extends Component {
       <PageLoader />
     ) : (
       <>
-        {/* If it is not loading and there is an error loading video show error page, then show the homepage*/}
+        {/* If it is not loading and there is no error show the homepage. or if there is an error, show error page*/}
         {!this.state.hasError ? (
           <main className="main">
             <Helmet>

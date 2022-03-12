@@ -18,9 +18,18 @@ export default class VideoDescription extends Component {
     isVideoLiked: false,
     likedVideoListID: [],
   };
-  changeShowText(prevState) {
-    this.setState({ showText: !prevState });
-  }
+
+  componentDidMount = () => {
+    //Fetch liked videolist ids from localstorage
+    const likedVideos = JSON.parse(localStorage.getItem('likedVideoIds')) || [];
+    const foundLikedVideo = likedVideos.find(
+      (id) => id === this.props.currentVideo.id
+    );
+    //If current video id is included in the liked list, change the state and styles to disable pressing the like button functionality
+    if (foundLikedVideo)
+      this.setState({ likedVideoListID: likedVideos, isVideoLiked: true });
+  };
+
   likeButtonClicked = async (id) => {
     if (!this.state.isVideoLiked) {
       //Update the json file
@@ -39,27 +48,14 @@ export default class VideoDescription extends Component {
       });
     }
   };
-  componentDidMount = () => {
-    //Fetch liked videolist id
-    const likedVideos = JSON.parse(localStorage.getItem('likedVideoIds')) || [];
-    const foundLikedVideo = likedVideos.find(
-      (id) => id === this.props.currentVideo.id
-    );
-    //If current video id is included in the liked video id list, change the state and styles
-    if (foundLikedVideo)
-      this.setState({ likedVideoListID: likedVideos, isVideoLiked: true });
-  };
-  componentDidUpdate = (prevProps) => {
-    if (prevProps.currentVideo.id !== this.props.currentVideo.id) {
-      //If the url has changed and current video id is included in the liked list and update state and styles
-      const foundLikedVideo = this.state.likedVideoListID.find(
-        (id) => id === this.props.currentVideo.id
-      );
-      if (foundLikedVideo) this.setState({ isVideoLiked: true });
-    }
-  };
+
+  changeShowText(prevState) {
+    // If button is clicked, either trim the texts to a certain length, or show all the texts
+    this.setState({ showText: !prevState });
+  }
 
   render() {
+    //Either show texts with a length of 200 or show all the texts
     const trimmedText =
       this.props.currentVideo.description.length <= 200
         ? this.props.currentVideo.description
